@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="263dp"
+        android:layout_height="412dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/our_app_is_here_for_your_convenience_you_can_register_sign_in_and_view_all_of_our_training_programs_which_trainer_leads_an_exact_class_that_day_or_just_check_the_whole_schedule_you_can_sign_to_any_class_you_like_based_on_capacity_limits_once_you_re_logged_in_there_s_an_option_to_move_between_each_tabs_of_the_app_entrance_page_our_location_by_google_register_viewing_your_details_visiting_our_training_schedule_that_option_is_located_on_the_top_right_corner_of_each_screen_and_enables_you_a_quick_entrance_through_a_finger_tap_if_more_questions_are_raised_or_something_isn_t_understood_you_are_welcome_to_contact_us_by_mail_cclub_gmail_com"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        layout="@layout/menu_footer"
+        android:layout_width="387dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+</android.support.constraint.ConstraintLayout>

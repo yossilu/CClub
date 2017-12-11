@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">C Club</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="welcome_to_c_club">Welcome to C Club</string>
+    <string name="please_enter_login_credentials">Please enter login credentials</string>
+    <string name="please_fill_the_following_details">Please fill the following details</string>
+    <string name="street_name">Street Name:</string>
+    <string name="city">City:</string>
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_last_name">Enter Last name</string>
+    <string name="enter_city_name">Enter city name</string>
+    <string name="enter_street_name">Enter street name</string>
+    <string name="example_email_com">example@email.com</string>
+    <string name="usernameReg">Username:</string>
+    <string name="passwordReg">Password:</string>
+    <string name="email">Email:</string>
+    <string name="first_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="upload_a_photo">Upload a photo:</string>
+    <string name="todo">TODO</string>
+    <string name="registration">Registration</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="you_can_find_us_here">You can find us here:</string>
+    <string name="zip_code_583876">Zip Code: 583876</string>
+    <string name="hours_of_opening">Hours of Opening</string>
+    <string name="street_greenboim_8_holon">Street: Greenboim 8, Holon</string>
+    <string name="address">Address:</string>
+    <string name="change_details">Change Details</string>
+    <string name="go_back_to_menu">Go back to menu</string>
+    <string name="our_app_is_here_for_your_convenience_you_can_register_sign_in_and_view_all_of_our_training_programs_which_trainer_leads_an_exact_class_that_day_or_just_check_the_whole_schedule_you_can_sign_to_any_class_you_like_based_on_capacity_limits_once_you_re_logged_in_there_s_an_option_to_move_between_each_tabs_of_the_app_entrance_page_our_location_by_google_register_viewing_your_details_visiting_our_training_schedule_that_option_is_located_on_the_top_right_corner_of_each_screen_and_enables_you_a_quick_entrance_through_a_finger_tap_if_more_questions_are_raised_or_something_isn_t_understood_you_are_welcome_to_contact_us_by_mail_cclub_gmail_com">Our app is here for your Convenience you can register, sign in and view all of our training programs, which trainer leads an exact class that day or just check the whole schedule. You can sign to any class you like based on capacity limits. once you’re logged in there’s an option to move between each tabs of the app: entrance page /our location by google/ register/ viewing your details/ visiting our training schedule. That option is located on the top right corner of each screen and enables you a quick entrance through a finger tap. If more questions are raised or something isn’t understood you are welcome to contact us by mail, Cclub@gmail.com</string>
+    <string name="button">Button</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_maps2">Map</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="title_home">Menu</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+</resources>
