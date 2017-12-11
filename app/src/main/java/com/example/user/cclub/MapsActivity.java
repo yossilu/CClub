@@ -1,6 +1,8 @@
 package com.example.user.cclub;
 //error
 
+
+
 import java.util.*;
 
 import android.support.v4.app.FragmentActivity;
@@ -13,7 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -38,13 +40,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
     }
-    private void setUpMapIfNeeded(){
+
+    private void setUpMapIfNeeded() {
 
     }
+}
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
