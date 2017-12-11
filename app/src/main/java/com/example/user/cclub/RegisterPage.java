@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-/**
- * Created by user on 12/11/2017.
- */
 
 public class RegisterPage extends AppCompatActivity implements View.OnClickListener {
     ImageView imageToUpload;
