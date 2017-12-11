@@ -1,6 +1,4 @@
 package com.example.user.cclub;
-//error
-
 
 
 import java.util.*;
