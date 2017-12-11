@@ -2,6 +2,7 @@ package com.example.user.cclub;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -9,7 +10,7 @@ import android.widget.ImageView;
  * Created by user on 12/11/2017.
  */
 
-public class RegisterPage extends AppCompatActivity {
+public class RegisterPage extends AppCompatActivity implements View.OnClickListener {
     ImageView imageToUpload;
     ImageButton imgBtn;
     @Override
@@ -21,4 +22,8 @@ public class RegisterPage extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }
