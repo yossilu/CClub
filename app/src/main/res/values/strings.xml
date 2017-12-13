@@ -32,14 +32,21 @@
     <string name="change_details">Change Details</string>
     <string name="go_back_to_menu">Go back to menu</string>
     <string name="our_app_is_here_for_your_convenience_you_can_register_sign_in_and_view_all_of_our_training_programs_which_trainer_leads_an_exact_class_that_day_or_just_check_the_whole_schedule_you_can_sign_to_any_class_you_like_based_on_capacity_limits_once_you_re_logged_in_there_s_an_option_to_move_between_each_tabs_of_the_app_entrance_page_our_location_by_google_register_viewing_your_details_visiting_our_training_schedule_that_option_is_located_on_the_top_right_corner_of_each_screen_and_enables_you_a_quick_entrance_through_a_finger_tap_if_more_questions_are_raised_or_something_isn_t_understood_you_are_welcome_to_contact_us_by_mail_cclub_gmail_com">Our app is here for your Convenience you can register, sign in and view all of our training programs, which trainer leads an exact class that day or just check the whole schedule. You can sign to any class you like based on capacity limits. once you’re logged in there’s an option to move between each tabs of the app: entrance page /our location by google/ register/ viewing your details/ visiting our training schedule. That option is located on the top right corner of each screen and enables you a quick entrance through a finger tap. If more questions are raised or something isn’t understood you are welcome to contact us by mail, Cclub@gmail.com</string>
-    <string name="button">Button</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_maps2">Map</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="title_home">Menu</string>
+    <string name="title_home">home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="opens_the_camera">opens the camera</string>
+    <string name="opens_the_gallery">opens the gallery</string>
+    <string name="menu" />
+    <string name="Menu">menu</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="go_to_reg">go to Reg</string>
+    <string name="go_to_our_location">go to our Location</string>
+    <string name="go_to_readme">go to Readme</string>
 
 </resources>

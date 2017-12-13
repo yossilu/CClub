@@ -1,6 +1,7 @@
 package com.example.user.cclub;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -8,27 +9,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Button;
+import java.io.IOException;
 
 
 public class RegisterPage extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int RESULT_LOAD_IMG = 1;
-    CameraPhoto cameraPhoto;
-    ImageView imageToUpload , imagePreview;
-    ImageButton cameraBtn;
-    final int CAMERA_REQUEST = 13323;
+    private static final int RESULT_LOAD_IMG = 71;
+    ImageView imageViewReg;
+    ImageButton cameraBtn,galleryBtn;
+    Button gotoUserInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        imageToUpload = (ImageView)findViewById(R.id.imageViewInfo);
-        imagePreview = (ImageView)findViewById(R.id.imageViewInfo);
-        cameraBtn = (ImageButton) findViewById(R.id.imageButtonReg);
-        cameraPhoto = new CameraPhoto(getApplicationContext());
-
-        imageToUpload.setOnClickListener(this);
+        imageViewReg = (ImageView)findViewById(R.id.imageViewReg);
+        galleryBtn = (ImageButton) findViewById(R.id.galleryBtnReg);
+        cameraBtn = (ImageButton) findViewById(R.id.CameraBtnReg);
+        gotoUserInfo = (Button) findViewById(R.id.gotoBtnLog);
         cameraBtn.setOnClickListener(this);
+        galleryBtn.setOnClickListener(this);
+        imageViewReg.setOnClickListener(this);
     }
+
 
 
     @Override
@@ -36,27 +39,31 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (data != null)){
             Uri selectImg = data.getData();
-            imageToUpload.setImageURI(selectImg);
-        }
-        if(resultCode == RESULT_OK){
-            if(resultCode == CAMERA_REQUEST){
-                cameraPhoto.getPhotoPath();
+            try{
+                Bitmap bmap = MediaStore.Images.Media.getBitmap(getContentResolver(),selectImg);
+                imageViewReg.setImageBitmap(bmap);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
             }
         }
     }
 
     @Override
     public void onClick(View v) {
-        Intent gallery;
+        Intent intent;
         switch (v.getId()) {
-            case R.id.imageViewInfo:
-                gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(gallery,RESULT_LOAD_IMG);
+            case R.id.galleryBtnReg:
+                intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,RESULT_LOAD_IMG);
                 break;
-            case R.id.imageButtonReg:
-                startActivityForResult(cameraPhoto.takePhotoIntent(),CAMERA_REQUEST);
-                cameraPhoto.addToGallery();
-                break;
+            case R.id.CameraBtnReg:
+                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,0);
+            case R.id.gotoBtnReg:
+                intent =  new Intent(RegisterPage.this, UserInfo.class);
+                startActivity(intent);
         }
     }
 }
