@@ -17,7 +17,6 @@
     <string name="email">Email:</string>
     <string name="first_name">First Name:</string>
     <string name="last_name">Last Name:</string>
-    <string name="upload_a_photo">Upload a photo:</string>
     <string name="todo">TODO</string>
     <string name="registration">Registration</string>
     <string name="title_activity_maps">Map</string>
@@ -48,5 +47,8 @@
     <string name="go_to_reg">go to Reg</string>
     <string name="go_to_our_location">go to our Location</string>
     <string name="go_to_readme">go to Readme</string>
+    <string name="go_to_user_info">go to user Info</string>
+    <string name="upload_a_photo">Upload a photo2</string>
+    <string name="camera">camera</string>
 
 </resources>

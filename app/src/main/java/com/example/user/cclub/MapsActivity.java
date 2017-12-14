@@ -1,8 +1,11 @@
 package com.example.user.cclub;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +27,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.mapViewContact);
             mapFragment.getMapAsync(this);
+
+            Button gotoRead = (Button) findViewById(R.id.gotoBtnLocation);
+            gotoRead.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MapsActivity.this, ReadmePage.class);
+                    startActivity(intent);
+                }
+            });
         }
+
+
 
 
         /**

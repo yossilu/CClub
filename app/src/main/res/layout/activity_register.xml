@@ -2,6 +2,7 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RegFramework"
     android:layout_width="match_parent"
@@ -237,20 +238,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/FirstNTextViewReg" />
 
-        <ImageButton
-            android:id="@+id/CameraBtnReg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="@string/opens_the_camera"
-            app:layout_constraintBottom_toTopOf="@+id/include"
-            app:layout_constraintEnd_toStartOf="@+id/imageViewReg"
-            app:layout_constraintHorizontal_bias="0.537"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
-
         <ImageView
             android:id="@+id/imageViewReg"
             android:layout_width="135dp"
@@ -266,15 +253,12 @@
             android:id="@+id/UploadTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginLeft="36dp"
             android:layout_marginStart="36dp"
             android:layout_marginTop="16dp"
             android:text="@string/upload_a_photo"
-            app:layout_constraintBottom_toTopOf="@+id/CameraBtnReg"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/StreetNTextViewInfo"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/StreetNTextViewInfo" />
 
         <include
             android:id="@+id/include"
@@ -295,19 +279,31 @@
             android:id="@+id/galleryBtnReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="60dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="8dp"
             android:contentDescription="@string/opens_the_gallery"
             app:layout_constraintBottom_toTopOf="@+id/include"
             app:layout_constraintEnd_toStartOf="@+id/imageViewReg"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CameraBtnReg"
-            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <Button
+            android:id="@+id/photoBtnReg"
+            style="@style/Platform.V14.AppCompat.Light"
+            android:layout_width="86dp"
+            android:layout_height="59dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/camera"
+            app:layout_constraintBottom_toTopOf="@+id/galleryBtnReg"
+            app:layout_constraintEnd_toStartOf="@+id/imageViewReg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/UploadTextView" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -315,5 +311,5 @@
         android:id="@+id/gotoBtnReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="go to user Info" />
+        android:text="@string/go_to_user_info" />
 </FrameLayout>

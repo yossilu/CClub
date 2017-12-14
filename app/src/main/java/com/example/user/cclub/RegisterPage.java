@@ -1,69 +1,115 @@
 package com.example.user.cclub;
 //error
+
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Button;
+import android.widget.Toast;
+
 import java.io.IOException;
 
 
 public class RegisterPage extends AppCompatActivity implements View.OnClickListener {
-
-    private static final int RESULT_LOAD_IMG = 71;
+    private static final int CAM_REQUEST = 1313;
+    private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
-    ImageButton cameraBtn,galleryBtn;
-    Button gotoUserInfo;
+    ImageButton galleryBtn;
+    Button gotoUserInfo, cameraBtn;
+    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         imageViewReg = (ImageView)findViewById(R.id.imageViewReg);
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtnReg);
-        cameraBtn = (ImageButton) findViewById(R.id.CameraBtnReg);
-        gotoUserInfo = (Button) findViewById(R.id.gotoBtnLog);
-        cameraBtn.setOnClickListener(this);
+        cameraBtn = (Button) findViewById(R.id.photoBtnReg);
+        gotoUserInfo = (Button) findViewById(R.id.gotoBtnReg);
         galleryBtn.setOnClickListener(this);
         imageViewReg.setOnClickListener(this);
-    }
+        cameraBtn.setOnClickListener(this);
 
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (data != null)){
-            Uri selectImg = data.getData();
-            try{
-                Bitmap bmap = MediaStore.Images.Media.getBitmap(getContentResolver(),selectImg);
-                imageViewReg.setImageBitmap(bmap);
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    CAM_REQUEST);
         }
     }
+
+    @Override
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == CAM_REQUEST) {
+
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+
+            } else {
+
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+
+            }
+
+        }
+    }
+
+
+
+        @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+       Bitmap bmap;
+       if((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (data != null)){
+            Uri selectImg = data.getData();
+          try{
+               bmap = MediaStore.Images.Media.getBitmap(getContentResolver(),selectImg);
+               imageViewReg.setImageBitmap(bmap);
+               Toast.makeText(RegisterPage.this,"Image uploaded successfully",Toast.LENGTH_LONG).show();
+            }
+          catch (IOException e)
+           {
+                e.printStackTrace();
+           }
+        }
+    }
+
+
+
+
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         switch (v.getId()) {
             case R.id.galleryBtnReg:
-                intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,RESULT_LOAD_IMG);
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent,RESULT_LOAD_IMG);
                 break;
-            case R.id.CameraBtnReg:
-                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,0);
+            case R.id.photoBtnReg:
+                Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(photoIntent,CAM_REQUEST);
+                break;
             case R.id.gotoBtnReg:
-                intent =  new Intent(RegisterPage.this, UserInfo.class);
-                startActivity(intent);
+                Intent gotoIntent =  new Intent(RegisterPage.this, UserInfo.class);
+                startActivity(gotoIntent);
+                break;
         }
     }
+
 }
