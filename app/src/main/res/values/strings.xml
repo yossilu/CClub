@@ -50,5 +50,10 @@
     <string name="go_to_user_info">go to user Info</string>
     <string name="upload_a_photo">Upload a photo2</string>
     <string name="camera">camera</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="go_to_info">go to info</string>
+    <string name="readme">readme</string>
+    <string name="location">location</string>
 
 </resources>

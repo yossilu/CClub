@@ -40,6 +40,18 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         galleryBtn.setOnClickListener(this);
         imageViewReg.setOnClickListener(this);
         cameraBtn.setOnClickListener(this);
+       gotoUserInfo.setOnClickListener(new View.OnClickListener() {
+          @Override
+            public void onClick(View v) {
+                   if(v.getId() == R.id.gotoBtnReg) {
+                       startActivity(new Intent(RegisterPage.this,UserInfo.class));
+
+                   Intent gotoBtn = new Intent(RegisterPage.this, UserInfo.class);
+                    startActivity(gotoBtn);
+                }
+            }
+        });
+
 
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -52,19 +64,12 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     @Override
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (requestCode == CAM_REQUEST) {
-
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-
             } else {
-
                 Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-
             }
 
         }
@@ -100,14 +105,12 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             case R.id.galleryBtnReg:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galleryIntent,RESULT_LOAD_IMG);
+                Toast.makeText(RegisterPage.this,"Please choose a photo from gallery",Toast.LENGTH_LONG).show();
                 break;
             case R.id.photoBtnReg:
                 Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(photoIntent,CAM_REQUEST);
-                break;
-            case R.id.gotoBtnReg:
-                Intent gotoIntent =  new Intent(RegisterPage.this, UserInfo.class);
-                startActivity(gotoIntent);
+                Toast.makeText(RegisterPage.this,"Please Take a photo",Toast.LENGTH_LONG).show();
                 break;
         }
     }
