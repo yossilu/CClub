@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LocationFramework"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.user.cclub.MapsActivity">
@@ -10,23 +11,25 @@
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapViewContact"
-            android:layout_width="313dp"
-            android:layout_height="193dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.436"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextViewContact"
-            app:layout_constraintVertical_bias="0.004" />
+        <!--<com.google.android.gms.maps.MapView-->
+            <!--android:id="@+id/mapViewContact"-->
+            <!--android:layout_width="313dp"-->
+            <!--android:layout_height="193dp"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.436"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/TextViewContact"-->
+            <!--app:layout_constraintVertical_bias="0.004"-->
+            <!--class="com.google.android.gms.maps.SupportMapFragment"/>-->
 
         <TextView
             android:id="@+id/TextViewContact"
@@ -45,48 +48,49 @@
         <TextView
             android:id="@+id/addressTextViewContact"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="17dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="28dp"
             android:text="@string/street_greenboim_8_holon"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.155"
+            app:layout_constraintHorizontal_bias="0.123"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapViewContact" />
+            app:layout_constraintTop_toBottomOf="@+id/safety_map" />
 
         <TextView
             android:id="@+id/zipTextViewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:text="@string/zip_code_583876"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/openingHoursBtnContact"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.12"
+            app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressTextViewContact" />
+            app:layout_constraintTop_toBottomOf="@+id/addressTextViewContact"
+            app:layout_constraintVertical_bias="0.125" />
 
         <Button
             android:id="@+id/openingHoursBtnContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
             android:text="@string/hours_of_opening"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/include2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.112"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zipTextViewContact"
-            app:layout_constraintVertical_bias="0.181" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <include
+            android:id="@+id/include2"
             layout="@layout/menu_footer"
             android:layout_width="387dp"
             android:layout_height="wrap_content"
@@ -99,14 +103,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/gotoBtnLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="72dp"
-            android:text="@string/go_to_readme"
+        <fragment
+            android:id="@+id/safety_map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="313dp"
+            android:layout_height="193dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.436"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TextViewContact"
+            app:layout_constraintVertical_bias="0.004"
+
+            app:uiZoomControls="true" />
+
     </android.support.constraint.ConstraintLayout>
+
+
 </FrameLayout>

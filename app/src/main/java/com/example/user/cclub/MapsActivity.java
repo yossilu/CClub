@@ -1,15 +1,9 @@
 package com.example.user.cclub;
 
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.widget.Button;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,62 +13,58 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity {
 
-    private GoogleMap mMap;
+    private SupportMapFragment mapFragment;
+    public GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_page);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapViewContact);
-        mapFragment.getMapAsync(this);
 
-        Button gotoRead = (Button) findViewById(R.id.gotoBtnLocation);
-        gotoRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MapsActivity.this, ReadmePage.class);
-                startActivity(intent);
+        mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.safety_map));
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    loadMap(map);
+                }
+            });
+        } else {
+            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+        protected void loadMap(GoogleMap googleMap) {
+            map = googleMap;
+            if (map != null) {
+                // Map is ready
+                Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+                LatLng holon = new LatLng(32.019088, 34.76922969999998);
+                //move camera
+                map.moveCamera(CameraUpdateFactory.newLatLng(holon));
+                //marker to Holon Israel Ehad be'mai
+                map.moveCamera(CameraUpdateFactory.newLatLng(holon));
+                map.animateCamera(CameraUpdateFactory.zoomTo(12));
+                map.addMarker(new MarkerOptions().position(holon).title("Marker in Israel, Holon, Ehad Be'Mai"));
+            } else {
+                Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
+
     }
 
 
-    /**
-     * will call the map when available.
-     * possible to add extra methods such as add lines for example.
-     * supportMapFragment object supports google play services
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+//
+//        Button gotoRead = (Button) findViewById(R.id.gotoBtnLocation);
+//        gotoRead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MapsActivity.this, ReadmePage.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
-        }
-    public void onLocationChanged(Location location) {
-        LatLng holon = new LatLng(32.019088, 34.76922969999998);
-        //move camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(holon));
-        //marker to Holon Israel Ehad be'mai
-
-        if(mMap != null){
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(holon));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-            mMap.addMarker(new MarkerOptions().position(holon).title("Marker in Israel, Holon, Ehad Be'Mai"));
-        }
-    }
-    }
 
