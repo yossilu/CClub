@@ -17,10 +17,10 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/nav_action_home"
+        android:id="@+id/nav_action_training"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
-        android:title="@string/title_home"
+        android:icon="@drawable/ic_add_training"
+        android:title="Add Training"
         app:showAsAction="ifRoom"/>
 
 

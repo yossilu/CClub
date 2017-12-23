@@ -37,7 +37,7 @@ public abstract class MenuFooter extends AppCompatActivity {
                         break;
                     }
 
-                    case R.id.nav_action_home: {
+                    case R.id.nav_action_training: {
                         Intent intentReg = new Intent(MenuFooter.this, LoginPage.class);
                         startActivity(intentReg);
                         break;
