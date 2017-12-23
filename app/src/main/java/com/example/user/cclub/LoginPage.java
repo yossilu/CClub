@@ -7,6 +7,8 @@ import android.widget.Button;
 
 public class LoginPage extends AppCompatActivity {
     Button gotoreg,gotoInfo,gotoMap,gotoReadme;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
