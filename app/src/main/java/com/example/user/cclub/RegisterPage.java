@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,33 +26,22 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     private static final int CAM_REQUEST = 1313;
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
-    ImageButton galleryBtn;
-    Button gotoUserInfo, cameraBtn;
+    ImageButton galleryBtn, cameraBtn2;
+//    Button gotoUserInfo;
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_register);
         imageViewReg = (ImageView)findViewById(R.id.imageViewReg);
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtnReg);
-        cameraBtn = (Button) findViewById(R.id.photoBtnReg);
-        gotoUserInfo = (Button) findViewById(R.id.gotoBtnReg);
+        cameraBtn2 = findViewById(R.id.photoBtnReg);
+//        gotoUserInfo = (Button) findViewById(R.id.gotoBtnReg);
         galleryBtn.setOnClickListener(this);
         imageViewReg.setOnClickListener(this);
-        cameraBtn.setOnClickListener(this);
-       gotoUserInfo.setOnClickListener(new View.OnClickListener() {
-          @Override
-            public void onClick(View v) {
-                   if(v.getId() == R.id.gotoBtnReg) {
-                       startActivity(new Intent(RegisterPage.this,UserInfo.class));
-
-                   Intent gotoBtn = new Intent(RegisterPage.this, UserInfo.class);
-                    startActivity(gotoBtn);
-                }
-            }
-        });
-
+        cameraBtn2.setOnClickListener(this);
 
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -116,3 +106,4 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     }
 
 }
+

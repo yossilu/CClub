@@ -3,6 +3,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class LoginPage extends AppCompatActivity {
@@ -13,10 +14,12 @@ public class LoginPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-        gotoInfo = (Button) findViewById(R.id.infoPageBtn);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//      gotoInfo = (Button) findViewById(R.id.infoPageBtn);
         gotoMap = (Button) findViewById(R.id.mapPageBtn);
-        gotoreg = (Button) findViewById(R.id.gotoBtnLog);
+        gotoreg = (Button) findViewById(R.id.regButton);
         gotoReadme = (Button) findViewById(R.id.readmePageBtn);
+
         gotoreg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -25,14 +28,17 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        gotoInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentInfo;
-                intentInfo = new Intent(LoginPage.this, UserInfo.class);
-                startActivity(intentInfo);
-            }
-        });
+
+//        gotoInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentInfo;
+//                intentInfo = new Intent(LoginPage.this, UserInfo.class);
+//                startActivity(intentInfo);
+//            }
+//        });
+
+
 
         gotoMap.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,13 +13,13 @@ public class ReadmePage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readme);
 
-        Button gotoLogin = (Button) findViewById(R.id.gotoBtnReadme);
+    /*    Button gotoLogin = (Button) findViewById(R.id.gotoBtnReadme);
         gotoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ReadmePage.this, LoginPage.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 }
