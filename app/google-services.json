@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "339152097875",
+    "firebase_url": "https://c-club-86d82.firebaseio.com",
+    "project_id": "c-club-86d82",
+    "storage_bucket": "c-club-86d82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339152097875:android:e1f84e3aa5b40abe",
+        "android_client_info": {
+          "package_name": "com.example.user.cclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339152097875-n5knu1o6acqr4asnqvq7bmrvon1nipje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user.cclub",
+            "certificate_hash": "f1491dcdded9f48abdb3a1a3241f0d1779136c8d"
+          }
+        },
+        {
+          "client_id": "339152097875-lbvvas13h87f03rtac3dmuq1c77bdan7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCigi1E1zD43BAIwnG30TjYKNfzMzk4oVo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339152097875-lbvvas13h87f03rtac3dmuq1c77bdan7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

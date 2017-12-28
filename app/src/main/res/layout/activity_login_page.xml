@@ -109,19 +109,18 @@
                 />
 
             <AutoCompleteTextView
+                android:id="@+id/userPhone"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Email"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:drawableLeft="@drawable/ic_email_icon2"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/userEmail"
                 android:layout_marginBottom="10dp"
-                />
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/rounded_white"
+                android:drawableLeft="@drawable/ic_email_icon2"
+                android:drawablePadding="5dp"
+                android:hint="Phone Number"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -135,7 +134,7 @@
                 android:drawablePadding="5dp"
                 android:paddingLeft="10dp"
                 android:inputType="textPassword"
-                android:id="@+id/userPassword"
+                android:id="@+id/logPassword"
                 android:layout_marginBottom="25dp"
                 />
 
