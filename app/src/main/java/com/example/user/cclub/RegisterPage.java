@@ -136,6 +136,7 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        boolean flag = false;
         Bitmap bmap;
         if ((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (data != null)) {
             Uri selectImg = data.getData();
@@ -147,6 +148,17 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }
+        if ((requestCode == CAM_REQUEST) && (resultCode == RESULT_OK) && (data != null)) {
+            Uri selectImg = data.getData();
+            try {
+                bmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectImg);
+                imageViewReg.setImageBitmap(bmap);
+                Toast.makeText(RegisterPage.this, "Image uploaded successfully", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
