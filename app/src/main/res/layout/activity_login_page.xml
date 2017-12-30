@@ -6,8 +6,13 @@
         android:layout_height="match_parent"
         tools:context="com.example.user.cclub.LoginPage">
 
-
-
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/loginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -109,7 +114,7 @@
                 />
 
             <AutoCompleteTextView
-                android:id="@+id/userPhone"
+                android:id="@+id/userEmail"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
@@ -118,7 +123,7 @@
                 android:background="@drawable/rounded_white"
                 android:drawableLeft="@drawable/ic_email_icon2"
                 android:drawablePadding="5dp"
-                android:hint="Phone Number"
+                android:hint="Email@example.com"
                 android:paddingLeft="10dp"
                 android:textSize="14sp" />
 
@@ -134,7 +139,7 @@
                 android:drawablePadding="5dp"
                 android:paddingLeft="10dp"
                 android:inputType="textPassword"
-                android:id="@+id/logPassword"
+                android:id="@+id/userPass"
                 android:layout_marginBottom="25dp"
                 />
 
@@ -174,6 +179,7 @@
         </LinearLayout>
 
     </ScrollView>
+
 
 
     <include

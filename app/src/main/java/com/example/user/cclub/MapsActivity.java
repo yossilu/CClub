@@ -32,7 +32,7 @@ public class MapsActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error - Can't load Google map!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -40,7 +40,7 @@ public class MapsActivity extends AppCompatActivity {
             map = googleMap;
             if (map != null) {
                 // Map is ready
-                Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google Map was loaded properly!", Toast.LENGTH_SHORT).show();
                 LatLng holon = new LatLng(32.019088, 34.76922969999998);
                 //move camera
                 map.moveCamera(CameraUpdateFactory.newLatLng(holon));

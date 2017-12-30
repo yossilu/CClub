@@ -8,6 +8,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.user.cclub.RegisterPage">
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/registerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -79,7 +87,7 @@
                 android:id="@+id/userEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email without ."
+                android:hint="Email"
                 android:background="@drawable/rounded_white"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
@@ -149,7 +157,7 @@
                 />
 
             <AutoCompleteTextView
-                android:id="@+id/userCPassword"
+                android:id="@+id/userVerifPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
@@ -272,314 +280,3 @@
 </RelativeLayout>
 
 
-<!--
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RegFramework"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.user.cclub.RegisterPage">
-
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/headerTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/please_fill_the_following_details"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/userTextViewReg"
-            android:layout_width="75dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/usernameReg"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headerTextView" />
-
-        <EditText
-            android:id="@+id/UserEditTextReg"
-            android:layout_width="268dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headerTextView" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="30dp" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="352dp" />
-
-        <TextView
-            android:id="@+id/passTextViewReg"
-            android:layout_width="75dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/passwordReg"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userTextViewReg" />
-
-        <TextView
-            android:id="@+id/EmailTextViewInfo"
-            android:layout_width="75dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/email"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passTextViewReg" />
-
-        <TextView
-            android:id="@+id/FirstNTextViewReg"
-            android:layout_width="75dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/first_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EmailTextViewInfo" />
-
-        <EditText
-            android:id="@+id/FirstNEditTextInfo"
-            android:layout_width="268dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/enter_first_name"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.87"
-            app:layout_constraintStart_toEndOf="@+id/FirstNTextViewReg"
-            app:layout_constraintTop_toBottomOf="@+id/EmailEditTextReg" />
-
-        <EditText
-            android:id="@+id/PassEditTextReg"
-            android:layout_width="268dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.43"
-            app:layout_constraintStart_toEndOf="@+id/passTextViewReg"
-            app:layout_constraintTop_toBottomOf="@+id/UserEditTextReg" />
-
-        <EditText
-            android:id="@+id/EmailEditTextReg"
-            android:layout_width="268dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/example_email_com"
-            android:inputType="textEmailAddress"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.91"
-            app:layout_constraintStart_toEndOf="@+id/EmailTextViewInfo"
-            app:layout_constraintTop_toBottomOf="@+id/PassEditTextReg" />
-
-        <EditText
-            android:id="@+id/LastNEditTextInfo"
-            android:layout_width="268dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/enter_last_name"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/FirstNEditTextInfo" />
-
-        <TextView
-            android:id="@+id/CityTextViewInfo"
-            android:layout_width="45dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/city"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LastNTextViewInfo" />
-
-        <TextView
-            android:id="@+id/StreetNTextViewInfo"
-            android:layout_width="55dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/street_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CityTextViewInfo" />
-
-        <EditText
-            android:id="@+id/CityNEditTextInfo"
-            android:layout_width="268dp"
-            android:layout_height="33dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/enter_city_name"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LastNEditTextInfo" />
-
-        <EditText
-            android:id="@+id/streetEditTextInfo"
-            android:layout_width="268dp"
-            android:layout_height="33dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/enter_street_name"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/StreetNTextViewInfo"
-            app:layout_constraintTop_toBottomOf="@+id/CityNEditTextInfo" />
-
-        <TextView
-            android:id="@+id/LastNTextViewInfo"
-            android:layout_width="75dp"
-            android:layout_height="32dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/last_name"
-            android:textAlignment="viewEnd"
-            app:layout_constraintEnd_toStartOf="@+id/LastNEditTextInfo"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/FirstNTextViewReg" />
-
-        <ImageView
-            android:id="@+id/imageViewReg"
-            android:layout_width="135dp"
-            android:layout_height="108dp"
-            android:layout_marginEnd="76dp"
-            android:layout_marginRight="76dp"
-            android:contentDescription="@string/todo"
-            app:layout_constraintBottom_toTopOf="@+id/include"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@android:drawable/progress_horizontal" />
-
-        <TextView
-            android:id="@+id/UploadTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="36dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/upload_a_photo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/StreetNTextViewInfo" />
-
-
-
-        <ImageButton
-            android:id="@+id/galleryBtnReg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="60dp"
-            android:contentDescription="@string/opens_the_gallery"
-            app:layout_constraintBottom_toTopOf="@+id/include"
-            app:layout_constraintEnd_toStartOf="@+id/imageViewReg"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_gallery"
-            />
-
-        <Button
-            android:id="@+id/photoBtnReg"
-            style="@style/Platform.V14.AppCompat.Light"
-            android:layout_width="86dp"
-            android:layout_height="59dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/camera"
-            app:layout_constraintBottom_toTopOf="@+id/galleryBtnReg"
-            app:layout_constraintEnd_toStartOf="@+id/imageViewReg"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/UploadTextView" />
-
-        <Button
-            android:id="@+id/gotoBtnReg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/go_to_user_info"
-            app:layout_constraintBottom_toTopOf="@+id/imageViewReg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.717"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
-
-</FrameLayout>
--->

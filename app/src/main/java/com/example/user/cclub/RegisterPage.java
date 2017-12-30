@@ -3,7 +3,6 @@ package com.example.user.cclub;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,23 +10,24 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.user.cclub.Model.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 
 import java.io.IOException;
 
@@ -37,8 +37,14 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
     ImageButton galleryBtn, cameraBtn2;
-    AutoCompleteTextView userEmail, userPassword, userFirst, userLast, userAdd, userPhone;
+    AutoCompleteTextView userEmail, userPassword, userVerifPass;
+    RelativeLayout activity_sign_up;
     Button userRegisterBtn;
+
+    private FirebaseAuth auth;
+    Snackbar snackbar;
+
+
 
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -48,12 +54,10 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_register);
 
+        activity_sign_up = (RelativeLayout) findViewById(R.id.registerFragment);
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPassword = (AutoCompleteTextView) findViewById(R.id.userPassword);
-        userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
-        userLast = (AutoCompleteTextView) findViewById(R.id.userLast);
-        userAdd = (AutoCompleteTextView) findViewById(R.id.userAddress);
-        userPhone = (AutoCompleteTextView) findViewById(R.id.userPhone);
+        userVerifPass = (AutoCompleteTextView) findViewById(R.id.userVerifPass);
         userRegisterBtn = (Button) findViewById(R.id.userRegisterBtn);
         imageViewReg = (ImageView) findViewById(R.id.imageViewReg);
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtnReg);
@@ -62,53 +66,10 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         imageViewReg.setOnClickListener(this);
         cameraBtn2.setOnClickListener(this);
         userRegisterBtn.setOnClickListener(this);
+        activity_sign_up.setOnClickListener(this);
 
-
-        //Init FireBase
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
-
-        userRegisterBtn.setOnClickListener(new View.OnClickListener() {
-
-                                               @Override
-                                               public void onClick(View v) {
-                                                   final ProgressDialog mDialog = new ProgressDialog(RegisterPage.this);
-                                                   mDialog.setMessage("Please wait...");
-                                                   mDialog.show();
-                                                   table_user.addValueEventListener(new ValueEventListener(){
-
-
-                                                       @Override
-                                                       public void onDataChange(DataSnapshot dataSnapshot) {
-                                                            //check if already in the system
-                                                           if(dataSnapshot.child(userEmail.getText().toString()).exists()){
-                                                               mDialog.dismiss();
-                                                               Toast.makeText(RegisterPage.this, "Email is already taken", Toast.LENGTH_SHORT).show();
-                                                           }
-                                                           else if(dataSnapshot.child(userPhone.getText().toString()).exists()){
-                                                               mDialog.dismiss();
-                                                               Toast.makeText(RegisterPage.this, "Phone is already taken", Toast.LENGTH_SHORT).show();
-                                                           }
-                                                           else
-                                                           {
-                                                               mDialog.dismiss();
-                                                               User user = new User(userPhone.getText().toString(),userEmail.getText().toString(),userPassword.getText().toString(),userFirst.getText().toString(),userAdd.getText().toString());
-                                                               table_user.child(userPhone.getText().toString()).setValue(user);
-                                                               Toast.makeText(RegisterPage.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
-                                                                finish();
-                                                           }
-                                                       }
-
-                                                       @Override
-                                                       public void onCancelled(DatabaseError databaseError) {
-
-                                                       }
-                                                   });
-                                               }
-                                           }
-
-        );
-
+        //init firebase
+        auth = FirebaseAuth.getInstance();
 
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -116,10 +77,13 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAM_REQUEST);
         }
+
+
     }
 
-    @Override
 
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAM_REQUEST) {
@@ -176,9 +140,32 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(RegisterPage.this, "Please Take a photo", Toast.LENGTH_LONG).show();
                 break;
             case R.id.userRegisterBtn:
-
+                signUpUser(userEmail.getText().toString(),userPassword.getText().toString());
+                finish();
+                break;
 
         }
+    }
+
+    private void signUpUser(String email, final String password) {
+        auth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(!task.isSuccessful()){
+                            snackbar = Snackbar.make(activity_sign_up,"Error: "+task.getException(),snackbar.LENGTH_SHORT);
+                            snackbar.show();
+                        } else {
+                            if(userVerifPass.getText().toString().equals(password)) {
+                                snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
+                                snackbar.show();
+                            } else {
+                                snackbar = Snackbar.make(activity_sign_up,"password are not the same: "+task.getException(),snackbar.LENGTH_SHORT);
+                                snackbar.show();
+                            }
+                        }
+                    }
+                });
     }
 
 }

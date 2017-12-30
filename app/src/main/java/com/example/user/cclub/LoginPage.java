@@ -1,140 +1,98 @@
 package com.example.user.cclub;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.user.cclub.Model.User;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import android.widget.RelativeLayout;
 
 
-public class LoginPage extends AppCompatActivity {
-    Button gotoreg,LoginBtn,gotoMap,gotoReadme;
-    EditText phoneNum, passTxt, editRead;
-    TextView regView;
-    AlertDialog dialog;
-    String admin = "111111";
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+
+
+public class LoginPage extends AppCompatActivity implements View.OnClickListener {
+    Button gotoreg,LoginBtn,gotoReadme,mapPageBtn;
+    EditText userEmail, userPass;
+    RelativeLayout activity_menu;
+
+    private FirebaseAuth auth;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-        //Init FireBase
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
+
+
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         LoginBtn = (Button) findViewById(R.id.LoginBtn);
-        gotoMap = (Button) findViewById(R.id.mapPageBtn);
         gotoreg = (Button) findViewById(R.id.regButton);
         gotoReadme = (Button) findViewById(R.id.readmePageBtn);
-        phoneNum = (AutoCompleteTextView) findViewById(R.id.userPhone);
-        passTxt = (AutoCompleteTextView) findViewById(R.id.logPassword);
-        regView = (TextView) findViewById(R.id.textViewReadme);
-        dialog = new AlertDialog.Builder(this).create();
-        editRead = new EditText(this);
+        mapPageBtn = (Button) findViewById(R.id.mapPageBtn);
+        activity_menu = (RelativeLayout) findViewById(R.id.loginFragment);
+        userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
+        userPass = (AutoCompleteTextView) findViewById(R.id.userPass);
 
-        dialog.setTitle(" Edit the text ");
-        dialog.setView(editRead);
+        gotoReadme.setOnClickListener(this);
+        mapPageBtn.setOnClickListener(this);
+        activity_menu.setOnClickListener(this);
+        LoginBtn.setOnClickListener(this);
+        gotoreg.setOnClickListener(this);
 
-        gotoreg.setOnClickListener(new View.OnClickListener() {
+        //Init Firebase Auth
+        auth = FirebaseAuth.getInstance();
+
+        //check session, if ok go to menu
+        if(auth.getCurrentUser() != null)
+            startActivity(new Intent(LoginPage.this,MapsActivity.class));
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.regButton){
+            Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
+            startActivity(intentReg);
+            finish();
+        } else if(view.getId() == R.id.LoginBtn){
+            loginUser(userEmail.getText().toString(),userPass.getText().toString());
+        } else if(view.getId() == R.id.readmePageBtn) {
+            Intent intentReadme = new Intent(LoginPage.this, ReadmePage.class);
+            startActivity(intentReadme);
+        }
+    }
+
+    private void loginUser(String email,final String pass) {
+        auth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
+
+
             @Override
-            public void onClick(View v) {
-                Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
-                startActivity(intentReg);
-            }
-        });
-
-        gotoMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMap = new Intent(LoginPage.this, MapsActivity.class);
-                startActivity(intentMap);
-            }
-        });
-
-        gotoReadme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentReadme = new Intent(LoginPage.this, ReadmePage.class);
-                startActivity(intentReadme);
-            }
-        });
-
-        LoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ProgressDialog mDialog = new ProgressDialog(LoginPage.this);
-                mDialog.setMessage("Please wait...");
-                mDialog.show();
-                final ValueEventListener valueEventListener = table_user.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                        //check if user does not exist in the database
-                        if (dataSnapshot.child(phoneNum.getText().toString()).exists()) {
-                            User user = dataSnapshot.child(phoneNum.getText().toString()).getValue(User.class);
-                            if ((passTxt.getText().toString()).equals(user.getPassword())) {
-                                Toast.makeText(LoginPage.this, "Signed in successfully", Toast.LENGTH_SHORT).show();
-//                                if ((phoneNum.getText().toString()).equals(admin) ) {
-//                                    Toast.makeText(LoginPage.this, "Readme and map info are now editable", Toast.LENGTH_SHORT).show();
-//                                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "SAVE TEXT", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            regView.setText(editRead.getText());
-//                                        }
-//                                    });
-//                                    regView.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            Intent homeIntent = new Intent(LoginPage.this, ReadmePage.class);
-//                                            startActivity(homeIntent);
-//                                          //  editRead.setText(regView.getText());
-//                                          //  dialog.show();
-//                                        }
-//
-//                                    });
-//
-//                                }
-//                                finish();
-//                            }
-                        } else {
-                                Toast.makeText(LoginPage.this, "could not sign in", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        } else {
-                            mDialog.dismiss();
-                            Toast.makeText(LoginPage.this, "User not exists, please register or enter correct details", Toast.LENGTH_SHORT).show();
-                        }
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    if(pass.length() < 0) {
+                        Snackbar snackbar = Snackbar.make(activity_menu,"Password length must be over 6",Snackbar.LENGTH_SHORT);
+                        snackbar.show();
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-
-
-                });
-
+                } else {
+                    startActivity(new Intent(LoginPage.this,LoginPage.class));
+                }
             }
-
-        });}}
+        });
+    }
+}
 
 
 
