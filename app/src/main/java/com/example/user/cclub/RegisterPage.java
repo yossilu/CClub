@@ -31,6 +31,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 
 import java.io.IOException;
@@ -41,15 +44,16 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
     ImageButton galleryBtn, cameraBtn2;
-    AutoCompleteTextView userEmail, userPassword, userVerifPass;
+    AutoCompleteTextView userEmail, userPassword, userVerifPass, userPhone, userFirst, userLast, userAddress,emails,passwords;
     RelativeLayout activity_sign_up;
     Button userRegisterBtn;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
-
+    private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseAuth auth;
+    private static final int SIGN_IN=123;
     Snackbar snackbar;
 
 
@@ -62,6 +66,8 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_register);
 
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutReg);
         mActivityTitle = getTitle().toString();
@@ -71,6 +77,13 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
 
+        userPhone = (AutoCompleteTextView) findViewById(R.id.userPhone);
+        userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
+        userLast = (AutoCompleteTextView) findViewById(R.id.userLast);
+        userAddress = (AutoCompleteTextView) findViewById(R.id.userAddress);
+        emails = (AutoCompleteTextView) findViewById(R.id.userEmail);
+        passwords = (AutoCompleteTextView) findViewById(R.id.userPassword);
+
         activity_sign_up = (RelativeLayout) findViewById(R.id.registerFragment);
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPassword = (AutoCompleteTextView) findViewById(R.id.userPassword);
@@ -79,14 +92,21 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         imageViewReg = (ImageView) findViewById(R.id.imageViewReg);
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtnReg);
         cameraBtn2 = findViewById(R.id.photoBtnReg);
+        userPhone.setOnClickListener(this);
+        userFirst.setOnClickListener(this);
+        userLast.setOnClickListener(this);
+        userAddress.setOnClickListener(this);
         galleryBtn.setOnClickListener(this);
         imageViewReg.setOnClickListener(this);
         cameraBtn2.setOnClickListener(this);
         userRegisterBtn.setOnClickListener(this);
         activity_sign_up.setOnClickListener(this);
+        emails.setOnClickListener(this);
+        passwords.setOnClickListener(this);
 
         //init firebase
         auth = FirebaseAuth.getInstance();
+
 
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -94,6 +114,11 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAM_REQUEST);
         }
+
+
+
+
+
 
 
     }
@@ -128,17 +153,11 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if(requestCode == CAM_REQUEST) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            cameraBtn2.setImageBitmap(thumbnail);
         }
-        if ((requestCode == CAM_REQUEST) && (resultCode == RESULT_OK) && (data != null)) {
-            Uri selectImg = data.getData();
-            try {
-                bmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectImg);
-                imageViewReg.setImageBitmap(bmap);
-                Toast.makeText(RegisterPage.this, "Image uploaded successfully", Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
 
     }
 
@@ -158,7 +177,6 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.userRegisterBtn:
                 signUpUser(userEmail.getText().toString(),userPassword.getText().toString());
-                finish();
                 break;
 
         }
@@ -174,8 +192,37 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                             snackbar.show();
                         } else {
                             if(userVerifPass.getText().toString().equals(password)) {
+                                String user = mFirebaseDatabaseReference.push().getKey();
+
+                                Intent intent = new Intent(RegisterPage.this, MapsActivity.class);
+                                intent.putExtra("firstname", userFirst.getText().toString());
+                                intent.putExtra("lastname", userLast.getText().toString());
+                                intent.putExtra("address", userAddress.getText().toString());
+                                intent.putExtra("email", emails.getText().toString());
+                                intent.putExtra("phonenumber", userPhone.getText().toString());
+                                intent.putExtra("password", passwords.getText().toString());
+
+                                startActivity(intent);
+
+
+
+                /*
+                WRITES THE NEW USER TO JSON FILE IN THE DATA BASE:
+                IT TAKES THE DATA FROM THE VARIABLES ABOVE AND PUT IT TO THE USERS TABLE.
+                 */
+                                mFirebaseDatabaseReference.child("User").child(user).child("First Name").setValue(userFirst.getText().toString());
+                                mFirebaseDatabaseReference.child("User").child(user).child("Last Name").setValue(userLast.getText().toString());
+                                mFirebaseDatabaseReference.child("User").child(user).child("Address").setValue(userAddress.getText().toString());
+                                mFirebaseDatabaseReference.child("User").child(user).child("Email").setValue(emails.getText().toString());
+                                mFirebaseDatabaseReference.child("User").child(user).child("Phone Number").setValue(userPhone.getText().toString());
+
+                                //ADD THE USER NAME AND PASSWORD OF THE NEW STUDENT TO THE USERS MANAGEMENT TABLE
+                                mFirebaseDatabaseReference.child("USERS MANAGEMENT").child(user).child("Username").setValue(emails.getText().toString());
+                                mFirebaseDatabaseReference.child("USERS MANAGEMENT").child(user).child("Password").setValue(passwords.getText().toString());
+
                                 snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
                                 snackbar.show();
+                                finish();
                             } else {
                                 snackbar = Snackbar.make(activity_sign_up,"password are not the same: "+task.getException(),snackbar.LENGTH_SHORT);
                                 snackbar.show();

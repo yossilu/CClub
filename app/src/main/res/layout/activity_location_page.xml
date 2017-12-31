@@ -26,36 +26,33 @@
 
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<com.google.android.gms.maps.MapView-->
-            <!--android:id="@+id/mapViewContact"-->
-            <!--android:layout_width="313dp"-->
-            <!--android:layout_height="193dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintHorizontal_bias="0.436"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/TextViewContact"-->
-            <!--app:layout_constraintVertical_bias="0.004"-->
-            <!--class="com.google.android.gms.maps.SupportMapFragment"/>-->
+        <ImageView
+            android:id="@+id/formBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background" />
 
         <TextView
             android:id="@+id/TextViewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="28dp"
+            android:layout_alignLeft="@+id/zipTextViewContact"
+            android:layout_alignStart="@+id/zipTextViewContact"
+            android:layout_below="@+id/safety_map"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="18dp"
             android:text="@string/you_can_find_us_here"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp"
@@ -67,9 +64,10 @@
             android:id="@+id/addressTextViewContact"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
+            android:layout_alignLeft="@+id/TextViewContact"
+            android:layout_alignStart="@+id/TextViewContact"
+            android:layout_below="@+id/TextViewContact"
+            android:layout_marginTop="19dp"
             android:text="@string/street_greenboim_8_holon"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,26 +90,24 @@
             app:layout_constraintTop_toBottomOf="@+id/addressTextViewContact" />
 
 
-
         <fragment
             android:id="@+id/safety_map"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="313dp"
             android:layout_height="193dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_alignLeft="@+id/TextViewContact"
+            android:layout_alignStart="@+id/TextViewContact"
+            android:layout_alignTop="@+id/zipTextViewContact"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.436"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TextViewContact"
             app:layout_constraintVertical_bias="0.004"
-
             app:uiZoomControls="true" />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"

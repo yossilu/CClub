@@ -90,19 +90,6 @@
                 />
 
             <AutoCompleteTextView
-                android:id="@+id/userPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/rounded_white"
-                android:drawablePadding="5dp"
-                android:hint="Phone Number"
-                android:paddingLeft="40dp"
-                android:textSize="14sp" />
-
-            <AutoCompleteTextView
                 android:id="@+id/userEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,6 +103,21 @@
                 android:paddingLeft="10dp"
                 android:layout_marginBottom="5dp"
                 />
+
+            <AutoCompleteTextView
+                android:id="@+id/userPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/rounded_white"
+                android:drawablePadding="5dp"
+                android:hint="Phone Number"
+                android:paddingLeft="40dp"
+                android:textSize="14sp" />
+
+
 
             <AutoCompleteTextView
                 android:id="@+id/userFirst"
