@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:id="@+id/registerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </RelativeLayout>
+
 
     <ImageView
         android:layout_width="match_parent"
@@ -200,20 +200,6 @@
                     android:layout_marginTop="2dp"
                     />
 
-                <!--<Button-->
-                <!--android:id="@+id/photoBtnReg"-->
-                <!--style="@style/Platform.V14.AppCompat.Light"-->
-                <!--android:layout_width="86dp"-->
-                <!--android:layout_height="59dp"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_marginEnd="8dp"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:text="@string/camera"-->
-                <!--app:layout_constraintBottom_toTopOf="@+id/galleryBtnReg"-->
-                <!--app:layout_constraintEnd_toStartOf="@+id/imageViewReg"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/UploadTextView" />-->
 
                 <ImageButton
                     android:id="@+id/galleryBtnReg"
@@ -268,15 +254,16 @@
 
     </ScrollView>
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/menu_footer"
-        android:layout_width="387dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/scrollView" />
+    </RelativeLayout>
 
-</RelativeLayout>
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:menu="@menu/navigation_menu"
+        android:layout_gravity="start">
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
 
 

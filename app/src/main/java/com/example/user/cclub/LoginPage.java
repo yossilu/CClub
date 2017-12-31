@@ -2,11 +2,17 @@ package com.example.user.cclub;
 import android.annotation.SuppressLint;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
@@ -27,6 +33,9 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
     Button gotoreg,LoginBtn,gotoReadme,mapPageBtn;
     EditText userEmail, userPass;
     RelativeLayout activity_menu;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
 
     private FirebaseAuth auth;
 
@@ -36,7 +45,33 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
+        setTheme(android.R.style.Theme_Holo);
+        //action bar init
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mActivityTitle = getTitle().toString();
 
+        setupDrawer();
+
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+//        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
+//
+//        mDrawerLayout.addDrawerListener(mToggle);
+//        mToggle.syncState();
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            // method invoked only when the actionBar is not null.
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
+
+        //init
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         LoginBtn = (Button) findViewById(R.id.LoginBtn);
         gotoreg = (Button) findViewById(R.id.regButton);
@@ -91,6 +126,60 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
                 }
             }
         });
+    }
+
+
+    private void setupDrawer(){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.open, R.string.close) {
+
+            /**
+             * Called when a drawer has settled in a completely open state.
+             */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                if( getSupportActionBar() !=null ) {
+                    getSupportActionBar().setTitle("Navigation");
+                }
+            }
+
+            /**
+             * Called when a drawer has settled in a completely closed state.
+             */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu();
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+
+
+    }
+      @Override
+      public boolean onOptionsItemSelected(MenuItem item) {
+
+         if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+}
+//
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }
 

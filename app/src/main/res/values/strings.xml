@@ -20,7 +20,8 @@
     <string name="todo">TODO</string>
     <string name="registration">Registration</string>
     <string name="title_activity_maps">Map</string>
-
+    <string name="open">Open</string>
+    <string name="close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="you_can_find_us_here">You can find us here:</string>
