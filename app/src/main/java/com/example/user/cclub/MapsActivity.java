@@ -1,8 +1,13 @@
 package com.example.user.cclub;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,10 +23,23 @@ public class MapsActivity extends AppCompatActivity {
     private SupportMapFragment mapFragment;
     public GoogleMap map;
 
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_page);
+
+        //action bar init
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutMap);
+        mActivityTitle = getTitle().toString();
+
+        setupDrawer();
+
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
 
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.safety_map));
         if (mapFragment != null) {
@@ -52,6 +70,59 @@ public class MapsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
             }
         }
+
+    private void setupDrawer(){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.open, R.string.close) {
+
+            /**
+             * Called when a drawer has settled in a completely open state.
+             */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                if( getSupportActionBar() !=null ) {
+                    getSupportActionBar().setTitle("Navigation");
+                }
+            }
+
+            /**
+             * Called when a drawer has settled in a completely closed state.
+             */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu();
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+//
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
     }
 

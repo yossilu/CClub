@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class LoginPage extends AppCompatActivity implements View.OnClickListener {
-    Button gotoreg,LoginBtn,gotoReadme,mapPageBtn;
+    Button gotoreg,LoginBtn;
     EditText userEmail, userPass;
     RelativeLayout activity_menu;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -45,9 +45,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
-        setTheme(android.R.style.Theme_Holo);
         //action bar init
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutLogin);
         mActivityTitle = getTitle().toString();
 
         setupDrawer();
@@ -75,14 +74,11 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         LoginBtn = (Button) findViewById(R.id.LoginBtn);
         gotoreg = (Button) findViewById(R.id.regButton);
-        gotoReadme = (Button) findViewById(R.id.readmePageBtn);
-        mapPageBtn = (Button) findViewById(R.id.mapPageBtn);
         activity_menu = (RelativeLayout) findViewById(R.id.loginFragment);
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPass = (AutoCompleteTextView) findViewById(R.id.userPass);
 
-        gotoReadme.setOnClickListener(this);
-        mapPageBtn.setOnClickListener(this);
+
         activity_menu.setOnClickListener(this);
         LoginBtn.setOnClickListener(this);
         gotoreg.setOnClickListener(this);
@@ -104,9 +100,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
             finish();
         } else if(view.getId() == R.id.LoginBtn){
             loginUser(userEmail.getText().toString(),userPass.getText().toString());
-        } else if(view.getId() == R.id.readmePageBtn) {
-            Intent intentReadme = new Intent(LoginPage.this, ReadmePage.class);
-            startActivity(intentReadme);
         }
     }
 
