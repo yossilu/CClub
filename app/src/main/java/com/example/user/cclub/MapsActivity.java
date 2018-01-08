@@ -1,8 +1,11 @@
 package com.example.user.cclub;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapsActivity extends AppCompatActivity {
+public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SupportMapFragment mapFragment;
     public GoogleMap map;
@@ -40,6 +43,8 @@ public class MapsActivity extends AppCompatActivity {
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
+        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
 
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.safety_map));
         if (mapFragment != null) {
@@ -124,18 +129,47 @@ public class MapsActivity extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.login_page:
+                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MapsActivity.this, RegisterPage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.readme_page:
+                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MapsActivity.this, ReadmePage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.map_page:
+                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MapsActivity.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.dashboard_page:
+                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MapsActivity.this, Dashboard.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.reset_page:
+                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MapsActivity.this, ForgotPassword.class);
+                startActivity(intent);
+                finish();
+                break;
+
+        }
+        return false;
     }
+}
 
-
-//
-//        Button gotoRead = (Button) findViewById(R.id.gotoBtnLocation);
-//        gotoRead.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MapsActivity.this, ReadmePage.class);
-//                startActivity(intent);
-//            }
-//        });
 
 
 

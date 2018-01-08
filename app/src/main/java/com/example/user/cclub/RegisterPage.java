@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,7 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.IOException;
 
 
-public class RegisterPage extends AppCompatActivity implements View.OnClickListener {
+public class RegisterPage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private static final int CAM_REQUEST = 1313;
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
@@ -76,6 +77,8 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
+        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
 
         userPhone = (AutoCompleteTextView) findViewById(R.id.userPhone);
         userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
@@ -114,9 +117,6 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     CAM_REQUEST);
         }
-
-
-
 
 
 
@@ -285,5 +285,45 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.login_page:
+                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
+                intent = new Intent(RegisterPage.this, RegisterPage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.readme_page:
+                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
+                intent = new Intent(RegisterPage.this, ReadmePage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.map_page:
+                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
+                intent = new Intent(RegisterPage.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.dashboard_page:
+                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(RegisterPage.this, Dashboard.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.reset_page:
+                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(RegisterPage.this, ForgotPassword.class);
+                startActivity(intent);
+                finish();
+                break;
+
+
+        }
+        return false;
+    }
 }
 

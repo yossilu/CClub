@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class Dashboard extends AppCompatActivity implements View.OnClickListener {
+public class Dashboard extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener {
 
     private TextView welcome;
     private EditText newPass;
@@ -48,6 +50,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
+        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
 
         welcome = (TextView) findViewById(R.id.dashboardText);
         newPass = (EditText) findViewById(R.id.newPass);
@@ -149,5 +153,46 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.login_page:
+                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
+                intent = new Intent(Dashboard.this, RegisterPage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.readme_page:
+                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
+                intent = new Intent(Dashboard.this, ReadmePage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.map_page:
+                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
+                intent = new Intent(Dashboard.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.dashboard_page:
+                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(Dashboard.this, Dashboard.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.reset_page:
+                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(Dashboard.this, ForgotPassword.class);
+                startActivity(intent);
+                finish();
+                break;
+
+
+        }
+        return false;
     }
 }

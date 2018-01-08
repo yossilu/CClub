@@ -43,73 +43,66 @@
             android:scaleType="centerCrop"
             android:src="@drawable/background" />
 
-        <TextView
-            android:id="@+id/TextViewContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/zipTextViewContact"
-            android:layout_alignStart="@+id/zipTextViewContact"
-            android:layout_below="@+id/safety_map"
-            android:layout_marginLeft="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/you_can_find_us_here"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical"
+            android:background="@drawable/trans_white_rectangle"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            >
 
-        <TextView
-            android:id="@+id/addressTextViewContact"
-            android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_alignLeft="@+id/TextViewContact"
-            android:layout_alignStart="@+id/TextViewContact"
-            android:layout_below="@+id/TextViewContact"
-            android:layout_marginTop="19dp"
-            android:text="@string/street_greenboim_8_holon"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.123"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/safety_map" />
+            <TextView
+                android:id="@+id/TextViewContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/safety_map"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/you_can_find_us_here"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                />
 
-        <TextView
-            android:id="@+id/zipTextViewContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/zip_code_583876"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.093"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressTextViewContact" />
+            <fragment
+                android:id="@+id/safety_map"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="300dp"
+                android:layout_height="193dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                />
+            <TextView
+                android:id="@+id/addressTextViewContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/street_greenboim_8_holon"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                />
 
+            <TextView
+                android:id="@+id/zipTextViewContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zip_code_583876"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                />
 
-        <fragment
-            android:id="@+id/safety_map"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="313dp"
-            android:layout_height="193dp"
-            android:layout_alignLeft="@+id/TextViewContact"
-            android:layout_alignStart="@+id/TextViewContact"
-            android:layout_alignTop="@+id/zipTextViewContact"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.436"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextViewContact"
-            app:layout_constraintVertical_bias="0.004"
-            app:uiZoomControls="true" />
+        </LinearLayout>
 
     </RelativeLayout>
 
+
+
+
     <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:menu="@menu/navigation_menu"

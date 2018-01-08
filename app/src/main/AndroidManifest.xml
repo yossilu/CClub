@@ -63,6 +63,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MapsActivity" />
+        <activity android:name=".Dashboard" />
+        <activity android:name=".ForgotPassword" />
         <activity android:name=".RegisterPage" />
         <activity android:name=".ReadmePage" />
     </application>

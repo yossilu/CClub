@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -19,9 +20,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 
-
+import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,14 +31,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-public class LoginPage extends AppCompatActivity implements View.OnClickListener {
+public class LoginPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     Button gotoreg,LoginBtn;
     EditText userEmail, userPass;
     RelativeLayout activity_menu;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
-
     private FirebaseAuth auth;
 
     @SuppressLint("WrongViewCast")
@@ -53,22 +54,8 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-//        mToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-//
-//        mDrawerLayout.addDrawerListener(mToggle);
-//        mToggle.syncState();
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            // method invoked only when the actionBar is not null.
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//        }
+        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
 
         //init
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -77,7 +64,6 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         activity_menu = (RelativeLayout) findViewById(R.id.loginFragment);
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPass = (AutoCompleteTextView) findViewById(R.id.userPass);
-
 
         activity_menu.setOnClickListener(this);
         LoginBtn.setOnClickListener(this);
@@ -92,14 +78,17 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    @Override
     public void onClick(View view) {
         if(view.getId() == R.id.regButton){
             Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
             startActivity(intentReg);
             finish();
-        } else if(view.getId() == R.id.LoginBtn){
-            loginUser(userEmail.getText().toString(),userPass.getText().toString());
+        } else if((view.getId() == R.id.LoginBtn) && null != LoginBtn.getText().toString()){
+            if(userEmail.getText().toString() != null || userPass.getText().toString() != null ) {
+                loginUser(userEmail.getText().toString(), userPass.getText().toString());
+            } else {
+                Toast.makeText(this,"One of the fields has no details",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -148,6 +137,7 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
 
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
 
 
 
@@ -174,6 +164,48 @@ public class LoginPage extends AppCompatActivity implements View.OnClickListener
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        int id = item.getItemId();
+        switch(id) {
+            case R.id.login_page:
+                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
+                intent = new Intent(LoginPage.this, RegisterPage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.readme_page:
+                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
+                intent = new Intent(LoginPage.this, ReadmePage.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.map_page:
+                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
+                intent = new Intent(LoginPage.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.dashboard_page:
+                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(LoginPage.this, Dashboard.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.reset_page:
+                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
+                intent = new Intent(LoginPage.this, ForgotPassword.class);
+                startActivity(intent);
+                finish();
+                break;
+
+
+        }
+        return false;
+    }
+
 }
 
 
