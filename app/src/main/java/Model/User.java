@@ -5,67 +5,84 @@ package Model;
  */
 
 public class User {
-    private String phoneN;
-    private String firstN;
-    private String lastN;
-    private String email;
-    private String password;
-    private String address;
 
-    public User(String phoneN, String firstN, String lastN, String email, String password,String address) {
-        this.phoneN = phoneN;
-        this.firstN = firstN;
-        this.lastN = lastN;
-        this.email = email;
-        this.password = password;
-        this.address = address;
+    private String PhoneNumber;
+    private String FirstName;
+    private String LastName;
+    private String Email;
+    private String Password;
+    private String Address;
+    private String UserTypeID;
+
+    /*
+                param
+             */
+    public User(String PhoneNumber, String FirstName, String LastName,
+                String Email, String Password,String Address,String UserTypeID) {
+        this.PhoneNumber = PhoneNumber;
+        this.FirstName = FirstName;
+        this.LastName = LastName;
+        this.Email = Email;
+        this.Password = Password;
+        this.Address = Address;
+        this.UserTypeID = UserTypeID;
     }
 
-    public String getAddress() {
-        return address;
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPhoneNumber(String phoneNumber) {
+        PhoneNumber = phoneNumber;
     }
 
-    public String getPhoneN() {
-        return phoneN;
+    public String getFirstName() {
+        return FirstName;
     }
 
-    public void setPhoneN(String phoneN) {
-        this.phoneN = phoneN;
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
     }
 
-    public String getFirstN() {
-        return firstN;
+    public String getLastName() {
+        return LastName;
     }
 
-    public void setFirstN(String firstN) {
-        this.firstN = firstN;
-    }
-
-    public String getLastN() {
-        return lastN;
-    }
-
-    public void setLastN(String lastN) {
-        this.lastN = lastN;
+    public void setLastName(String lastName) {
+        LastName = lastName;
     }
 
     public String getEmail() {
-        return email;
+        return Email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        Email = email;
     }
 
     public String getPassword() {
-        return password;
+        return Password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        Password = password;
     }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getUserTypeID() {
+        return UserTypeID;
+    }
+
+    public void setUserTypeID(String userTypeID) {
+        UserTypeID = userTypeID;
+    }
+
 }

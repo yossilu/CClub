@@ -26,7 +26,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/background" />
+            android:src="@drawable/background"
+            android:contentDescription="TODO" />
 
 
         <ImageView
@@ -37,7 +38,7 @@
         android:scaleType="center"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="70dp"
-        />
+            android:contentDescription="TODO" />
 
 
 
@@ -55,8 +56,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/trans_white_rectangle"
             android:layout_marginStart="30dp"
@@ -68,7 +68,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Get Started"
+                android:text="@string/get_started"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -76,12 +76,12 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:paddingTop="10dp"
-                />
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Just a few details to get you started"
+                android:text="@string/just_a_few_details_to_get_you_started"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:layout_marginBottom="30dp"
@@ -100,14 +100,17 @@
                 android:background="@drawable/rounded_white"
                 android:drawableLeft="@drawable/ic_email_icon2"
                 android:drawablePadding="5dp"
-                android:hint="Email@example.com"
+                android:hint="@string/email_example_com"
                 android:paddingLeft="10dp"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:paddingStart="10dp"
+                tools:ignore="RtlSymmetry"
+                android:drawableStart="@drawable/ic_email_icon2" />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:hint="Password"
+                android:hint="@string/password_hint"
                 android:background="@drawable/rounded_white"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
@@ -118,12 +121,13 @@
                 android:inputType="textPassword"
                 android:id="@+id/userPass"
                 android:layout_marginBottom="25dp"
-                />
+                android:drawableStart="@drawable/ic_pass_icon"
+                android:paddingStart="10dp"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
-                android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
 
@@ -134,22 +138,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
                     android:background="@drawable/registeration_button"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textColor="@color/white"
                     android:textStyle="normal"
                     android:textAllCaps="false"
-                    />
+                    tools:ignore="ButtonStyle"
+                    android:layout_marginEnd="30dp" />
 
                 <Button
                     android:id="@+id/regButton"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/registeration_button"
-                    android:text="Registeration"
+                    android:text="@string/registeration"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textStyle="normal"
-                    />
+                    tools:ignore="ButtonStyle" />
 
             </LinearLayout>
 
@@ -169,9 +174,6 @@
             android:id="@+id/toolbar"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />

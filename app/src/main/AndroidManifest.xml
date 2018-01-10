@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.user.cclub">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- Used by the Google Maps API to download map tiles from Google Maps servers. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -30,6 +32,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.camera2" />
+
 
     <uses-feature
         android:name="android.hardware.camera.any"

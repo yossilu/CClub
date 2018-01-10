@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Dashboard extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener {
 
     private TextView welcome;
-    private EditText newPass;
+    private EditText newPassword;
     private Button btnChangePass, btnLogout;
     private RelativeLayout Activity_dashboard;
 
@@ -47,6 +47,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         mActivityTitle = getTitle().toString();
 
         setupDrawer();
+        findViewById(R.id.LogOutBtn).setVisibility(View.VISIBLE);
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
@@ -54,7 +55,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         nav_view.setNavigationItemSelectedListener(this);
 
         welcome = (TextView) findViewById(R.id.dashboardText);
-        newPass = (EditText) findViewById(R.id.newPass);
+        newPassword = (EditText) findViewById(R.id.newPass);
         btnChangePass = (Button) findViewById(R.id.changePass);
         btnLogout = (Button) findViewById(R.id.LogOutBtn);
         Activity_dashboard = (RelativeLayout) findViewById(R.id.dashboardFragment);
@@ -75,7 +76,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.changePass){
-            changePassword(newPass.getText().toString());
+            changePassword(newPassword.getText().toString());
         } else if(view.getId() == R.id.LogOutBtn){
             logoutUser();
         }
@@ -162,7 +163,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         switch(id) {
             case R.id.login_page:
                 Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(Dashboard.this, RegisterPage.class);
+                intent = new Intent(Dashboard.this, LoginPage.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -190,8 +191,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 startActivity(intent);
                 finish();
                 break;
-
-
         }
         return false;
     }

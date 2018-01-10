@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">C Club</string>
-    <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="welcome_to_c_club">Welcome to C Club</string>
     <string name="please_enter_login_credentials">Please enter login credentials</string>
@@ -49,12 +48,18 @@
     <string name="go_to_our_location">go to our Location</string>
     <string name="go_to_readme">go to Readme</string>
     <string name="go_to_user_info">go to user Info</string>
-    <string name="upload_a_photo">Upload a photo2</string>
+    <string name="upload_a_photo">Upload a photo</string>
     <string name="camera">camera</string>
     <string name="register">Register</string>
-    <string name="login">Login</string>
     <string name="go_to_info">go to info</string>
     <string name="readme">readme</string>
     <string name="location">location</string>
+    <string name="email_example_com">Email@example.com</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="registeration">Registeration</string>
+    <string name="just_a_few_details_to_get_you_started">Just a few details to get you started</string>
+    <string name="get_started">Get Started</string>
+    <string name="password_hint">password hint</string>
 
 </resources>

@@ -136,7 +136,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         switch(id) {
             case R.id.login_page:
                 Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(MapsActivity.this, RegisterPage.class);
+                intent = new Intent(MapsActivity.this, LoginPage.class);
                 startActivity(intent);
                 finish();
                 break;

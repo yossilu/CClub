@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="CClub">My App</string>
+    <string name="ga_appVer">1.0</string>
+    <int name="ga_DispatcherPeriod">1800</int>
+    <bool name="ga_dryRun">false</bool>
+</PreferenceScreen>

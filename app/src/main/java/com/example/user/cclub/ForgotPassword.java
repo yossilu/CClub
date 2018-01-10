@@ -159,7 +159,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         switch(id) {
             case R.id.login_page:
                 Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ForgotPassword.this, RegisterPage.class);
+                intent = new Intent(ForgotPassword.this, LoginPage.class);
                 startActivity(intent);
                 finish();
                 break;

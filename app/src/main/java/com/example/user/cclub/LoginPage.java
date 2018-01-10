@@ -1,18 +1,14 @@
 package com.example.user.cclub;
 import android.annotation.SuppressLint;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,13 +18,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
-import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -40,11 +36,16 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     private String mActivityTitle;
     private FirebaseAuth auth;
 
+    private static GoogleAnalytics sAnalytics;
+    private static Tracker sTracker;
+
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+
+        sAnalytics = GoogleAnalytics.getInstance(this);
 
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutLogin);
@@ -69,6 +70,12 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         LoginBtn.setOnClickListener(this);
         gotoreg.setOnClickListener(this);
 
+        //google analytic
+        sTracker = sAnalytics.newTracker("UA-112233096-1");
+        sTracker.enableAdvertisingIdCollection(true);
+        sTracker.enableExceptionReporting(true);
+        sTracker.enableAutoActivityTracking(true);
+
         //Init Firebase Auth
         auth = FirebaseAuth.getInstance();
 
@@ -78,36 +85,46 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+
+
+
+
     public void onClick(View view) {
         if(view.getId() == R.id.regButton){
             Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
             startActivity(intentReg);
             finish();
-        } else if((view.getId() == R.id.LoginBtn) && null != LoginBtn.getText().toString()){
-            if(userEmail.getText().toString() != null || userPass.getText().toString() != null ) {
+        } else if(view.getId() == R.id.LoginBtn){
                 loginUser(userEmail.getText().toString(), userPass.getText().toString());
-            } else {
-                Toast.makeText(this,"One of the fields has no details",Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
-    private void loginUser(String email,final String pass) {
-        auth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
+    private void loginUser(final String email,final String pass) {
 
-
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    if(pass.length() < 0) {
-                        Snackbar snackbar = Snackbar.make(activity_menu,"Password length must be over 6",Snackbar.LENGTH_SHORT);
-                        snackbar.show();
+            auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (!task.isSuccessful()) {
+                        Log.w(mActivityTitle, "signInWithEmail:failure", task.getException());
+                        Toast.makeText(LoginPage.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+//                        if (pass.length() < 7) {
+//                            Snackbar snackbar = Snackbar.make(activity_menu, "Password length must be over 6", Snackbar.LENGTH_SHORT);
+//                            snackbar.show();
+//                        }
+//                        if(email == null || email.isEmpty() || email.equals("null")) {
+//                            Snackbar snackbar = Snackbar.make(activity_menu,"Please fill the email field",Snackbar.LENGTH_SHORT);
+//                            snackbar.show();
+//                        }
+                    } else {
+                        Log.d(mActivityTitle, "signInWithEmail:success");
+                        FirebaseUser user = auth.getCurrentUser();
+                        findViewById(R.id.LoginBtn).setVisibility(View.GONE);
+                        startActivity(new Intent(LoginPage.this, LoginPage.class));
                     }
-                } else {
-                    startActivity(new Intent(LoginPage.this,LoginPage.class));
                 }
-            }
-        });
+            });
+
     }
 
 
@@ -171,9 +188,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         int id = item.getItemId();
         switch(id) {
             case R.id.login_page:
-                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(LoginPage.this, RegisterPage.class);
-                startActivity(intent);
+                Toast.makeText(this,"Already at Login page",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.readme_page:

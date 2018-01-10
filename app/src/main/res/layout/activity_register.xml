@@ -216,6 +216,7 @@
                     android:id="@+id/photoBtnReg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="photoClicked"
                     android:src="@drawable/ic_camera_icon"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp"
@@ -224,6 +225,7 @@
 
                 <ImageButton
                     android:id="@+id/galleryBtnReg"
+                    android:onClick="galleryClicked"
                     android:contentDescription="@string/opens_the_gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -233,28 +235,18 @@
 
 
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/imageViewReg"
+                android:layout_width="106dp"
+                android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/todo"
                 app:layout_constraintBottom_toTopOf="@+id/include"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@android:drawable/progress_horizontal"
-                />
+                app:srcCompat="@android:drawable/progress_horizontal" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:button="@drawable/radio_button"
-                android:paddingLeft="5dp"
-                android:text="I agree to the Terms and Conditions"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                />
 
             <Button
                 android:id="@+id/userRegisterBtn"
@@ -264,6 +256,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/register_button"
+                android:onClick="registerClicked"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Register"

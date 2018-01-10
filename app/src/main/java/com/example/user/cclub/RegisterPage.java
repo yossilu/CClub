@@ -32,15 +32,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
-
 import java.io.IOException;
 
+import Model.User;
 
-public class RegisterPage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+
+public class RegisterPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final int CAM_REQUEST = 1313;
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
@@ -67,8 +68,7 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_register);
 
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference("Users");
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutReg);
         mActivityTitle = getTitle().toString();
@@ -95,17 +95,6 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         imageViewReg = (ImageView) findViewById(R.id.imageViewReg);
         galleryBtn = (ImageButton) findViewById(R.id.galleryBtnReg);
         cameraBtn2 = findViewById(R.id.photoBtnReg);
-        userPhone.setOnClickListener(this);
-        userFirst.setOnClickListener(this);
-        userLast.setOnClickListener(this);
-        userAddress.setOnClickListener(this);
-        galleryBtn.setOnClickListener(this);
-        imageViewReg.setOnClickListener(this);
-        cameraBtn2.setOnClickListener(this);
-        userRegisterBtn.setOnClickListener(this);
-        activity_sign_up.setOnClickListener(this);
-        emails.setOnClickListener(this);
-        passwords.setOnClickListener(this);
 
         //init firebase
         auth = FirebaseAuth.getInstance();
@@ -155,31 +144,27 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
             }
         } else if(requestCode == CAM_REQUEST) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            cameraBtn2.setImageBitmap(thumbnail);
+            imageViewReg.setImageBitmap(thumbnail);
         }
 
 
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.galleryBtnReg:
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
-                Toast.makeText(RegisterPage.this, "Please choose a photo from gallery", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.photoBtnReg:
-                Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(photoIntent, CAM_REQUEST);
-                Toast.makeText(RegisterPage.this, "Please Take a photo", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.userRegisterBtn:
-                signUpUser(userEmail.getText().toString(),userPassword.getText().toString());
-                break;
-
+    private boolean validInformation() {    //TODO : add toasts for invalid information
+        String name = userFirst.getText().toString().trim();
+        String Lname = userLast.getText().toString().trim();
+        String email = emails.getText().toString().trim();
+        String phone = userPhone.getText().toString().trim();
+        String password = passwords.getText().toString();
+        String add = userAddress.getText().toString().trim();
+        if (name.isEmpty() || Lname.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty() || add.isEmpty()) {
+            return false;
         }
+        if (!userVerifPass.getText().toString().equals(password)) {
+            return false;
+        }
+        return true;
     }
 
     private void signUpUser(String email, final String password) {
@@ -188,48 +173,33 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
-                            snackbar = Snackbar.make(activity_sign_up,"Error: "+task.getException(),snackbar.LENGTH_SHORT);
-                            snackbar.show();
-                        } else {
-                            if(userVerifPass.getText().toString().equals(password)) {
-                                String user = mFirebaseDatabaseReference.push().getKey();
-
-                                Intent intent = new Intent(RegisterPage.this, MapsActivity.class);
-                                intent.putExtra("firstname", userFirst.getText().toString());
-                                intent.putExtra("lastname", userLast.getText().toString());
-                                intent.putExtra("address", userAddress.getText().toString());
-                                intent.putExtra("email", emails.getText().toString());
-                                intent.putExtra("phonenumber", userPhone.getText().toString());
-                                intent.putExtra("password", passwords.getText().toString());
-
-                                startActivity(intent);
-
-
-
-                /*
-                WRITES THE NEW USER TO JSON FILE IN THE DATA BASE:
-                IT TAKES THE DATA FROM THE VARIABLES ABOVE AND PUT IT TO THE USERS TABLE.
-                 */
-                                mFirebaseDatabaseReference.child("User").child(user).child("First Name").setValue(userFirst.getText().toString());
-                                mFirebaseDatabaseReference.child("User").child(user).child("Last Name").setValue(userLast.getText().toString());
-                                mFirebaseDatabaseReference.child("User").child(user).child("Address").setValue(userAddress.getText().toString());
-                                mFirebaseDatabaseReference.child("User").child(user).child("Email").setValue(emails.getText().toString());
-                                mFirebaseDatabaseReference.child("User").child(user).child("Phone Number").setValue(userPhone.getText().toString());
-
-                                //ADD THE USER NAME AND PASSWORD OF THE NEW STUDENT TO THE USERS MANAGEMENT TABLE
-                                mFirebaseDatabaseReference.child("USERS MANAGEMENT").child(user).child("Username").setValue(emails.getText().toString());
-                                mFirebaseDatabaseReference.child("USERS MANAGEMENT").child(user).child("Password").setValue(passwords.getText().toString());
-
-                                snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
-                                snackbar.show();
-                                finish();
-                            } else {
-                                snackbar = Snackbar.make(activity_sign_up,"password are not the same: "+task.getException(),snackbar.LENGTH_SHORT);
-                                snackbar.show();
-                            }
+                            Toast.makeText(RegisterPage.this, task.getException().toString(), Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            createUser();
                         }
                     }
                 });
+    }
+
+    private void createUser(){
+        String UserTypeID = "3"; // TODO : change to real USERTYPEID
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        String FirstName = userFirst.getText().toString().trim();
+        String LastName = userLast.getText().toString().trim();
+        String Email = emails.getText().toString().trim();
+        String PhoneNumber = userPhone.getText().toString().trim();
+        String Password = passwords.getText().toString().trim();
+        String Address = userAddress.getText().toString().trim();
+        User u = new User(PhoneNumber,FirstName,LastName,Email,Password,Address,UserTypeID);
+
+        //insert data in firebase database Users
+        mFirebaseDatabaseReference.child(currentFirebaseUser.getUid()).setValue(u);
+
+
+        snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
+        snackbar.show();
+        finish();
     }
 
     private void setupDrawer(){
@@ -285,6 +255,24 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    public void registerClicked(View view){
+        if (validInformation())
+            signUpUser(userEmail.getText().toString().trim(),userPassword.getText().toString().trim());
+        else{
+            Toast.makeText(RegisterPage.this, "Not all fields are filled!", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void galleryClicked(View view){
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+        Toast.makeText(RegisterPage.this, "Please choose a photo from gallery", Toast.LENGTH_LONG).show();
+    }
+    public void photoClicked(View view){
+        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(photoIntent, CAM_REQUEST);
+        Toast.makeText(RegisterPage.this, "Please Take a photo", Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Intent intent;
@@ -292,7 +280,7 @@ public class RegisterPage extends AppCompatActivity implements View.OnClickListe
         switch(id) {
             case R.id.login_page:
                 Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterPage.this, RegisterPage.class);
+                intent = new Intent(RegisterPage.this, LoginPage.class);
                 startActivity(intent);
                 finish();
                 break;

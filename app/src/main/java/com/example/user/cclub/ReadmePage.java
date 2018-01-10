@@ -106,7 +106,7 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
         switch(id) {
             case R.id.login_page:
                 Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ReadmePage.this, RegisterPage.class);
+                intent = new Intent(ReadmePage.this, LoginPage.class);
                 startActivity(intent);
                 finish();
                 break;
