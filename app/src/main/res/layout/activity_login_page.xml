@@ -139,6 +139,7 @@
                     android:layout_marginRight="30dp"
                     android:background="@drawable/registeration_button"
                     android:text="@string/login"
+                    android:onClick="loginClicked"
                     android:textColor="@color/white"
                     android:textStyle="normal"
                     android:textAllCaps="false"
@@ -152,6 +153,7 @@
                     android:background="@drawable/registeration_button"
                     android:text="@string/registeration"
                     android:textAllCaps="false"
+                    android:onClick="registerClicked"
                     android:textColor="@color/white"
                     android:textStyle="normal"
                     tools:ignore="ButtonStyle" />

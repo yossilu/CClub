@@ -1,88 +1,94 @@
 package Model;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
 /**
  * Created by user on 12/31/2017.
  */
 
 public class User {
+    private static FirebaseAuth mAuth;
+    private static DatabaseReference dbRef;
+    private  String phoneNumber;
+    private  String firstName;
+    private  String lastName;
+    private  String email;
+    private  String password;
+    private  String address;
+    private  String userTypeID;
 
-    private String PhoneNumber;
-    private String FirstName;
-    private String LastName;
-    private String Email;
-    private String Password;
-    private String Address;
-    private String UserTypeID;
 
     /*
                 param
              */
     public User(String PhoneNumber, String FirstName, String LastName,
                 String Email, String Password,String Address,String UserTypeID) {
-        this.PhoneNumber = PhoneNumber;
-        this.FirstName = FirstName;
-        this.LastName = LastName;
-        this.Email = Email;
-        this.Password = Password;
-        this.Address = Address;
-        this.UserTypeID = UserTypeID;
+        this.phoneNumber = PhoneNumber;
+        this.firstName = FirstName;
+        this.lastName = LastName;
+        this.email = Email;
+        this.password = Password;
+        this.address = Address;
+        this.userTypeID = UserTypeID;
     }
 
 
-    public String getPhoneNumber() {
-        return PhoneNumber;
+
+    public  String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+    public  void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public  String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        FirstName = firstName;
+    public  void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
-    public void setLastName(String lastName) {
-        LastName = lastName;
+    public  void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public  void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-    public void setPassword(String password) {
-        Password = password;
+    public  void setPassword(String password) { this.password = password;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
-    public void setAddress(String address) {
-        Address = address;
+    public  void setAddress(String address) {
+        this.address = address;
     }
 
     public String getUserTypeID() {
-        return UserTypeID;
+        return userTypeID;
     }
 
-    public void setUserTypeID(String userTypeID) {
-        UserTypeID = userTypeID;
+    public  void setUserTypeID(String userTypeID) {
+        this.userTypeID = userTypeID;
     }
+
 
 }

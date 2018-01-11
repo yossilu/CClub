@@ -1,4 +1,5 @@
 package com.example.user.cclub;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -25,12 +25,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import Model.User;
 
 
-public class LoginPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class LoginPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    User currentUser;
     Button gotoreg,LoginBtn;
     EditText userEmail, userPass;
-    RelativeLayout activity_menu;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
@@ -62,13 +69,9 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         LoginBtn = (Button) findViewById(R.id.LoginBtn);
         gotoreg = (Button) findViewById(R.id.regButton);
-        activity_menu = (RelativeLayout) findViewById(R.id.loginFragment);
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPass = (AutoCompleteTextView) findViewById(R.id.userPass);
 
-        activity_menu.setOnClickListener(this);
-        LoginBtn.setOnClickListener(this);
-        gotoreg.setOnClickListener(this);
 
         //google analytic
         sTracker = sAnalytics.newTracker("UA-112233096-1");
@@ -88,17 +91,6 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
 
 
-
-    public void onClick(View view) {
-        if(view.getId() == R.id.regButton){
-            Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
-            startActivity(intentReg);
-            finish();
-        } else if(view.getId() == R.id.LoginBtn){
-                loginUser(userEmail.getText().toString(), userPass.getText().toString());
-        }
-    }
-
     private void loginUser(final String email,final String pass) {
 
             auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -108,24 +100,51 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                         Log.w(mActivityTitle, "signInWithEmail:failure", task.getException());
                         Toast.makeText(LoginPage.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
-//                        if (pass.length() < 7) {
-//                            Snackbar snackbar = Snackbar.make(activity_menu, "Password length must be over 6", Snackbar.LENGTH_SHORT);
-//                            snackbar.show();
-//                        }
-//                        if(email == null || email.isEmpty() || email.equals("null")) {
-//                            Snackbar snackbar = Snackbar.make(activity_menu,"Please fill the email field",Snackbar.LENGTH_SHORT);
-//                            snackbar.show();
-//                        }
                     } else {
                         Log.d(mActivityTitle, "signInWithEmail:success");
                         FirebaseUser user = auth.getCurrentUser();
+                        DatabaseReference dbRef;
+                        dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
+                        DatabaseReference dbRef2 = dbRef.child(user.getUid());
+                        dbRef.addChildEventListener(new ChildEventListener(){
+
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                                currentUser = dataSnapshot.getValue(User.class);
+                                Log.w("TAG","hi");
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                        dbRef2.child("userTypeID").setValue("1");
                         findViewById(R.id.LoginBtn).setVisibility(View.GONE);
-                        startActivity(new Intent(LoginPage.this, LoginPage.class));
+                        startActivity(new Intent(LoginPage.this, MapsActivity.class));
                     }
                 }
             });
 
     }
+
+
+
+
 
 
     private void setupDrawer(){
@@ -221,6 +240,28 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         return false;
     }
 
+    public void loginClicked(View view){
+        if (isValidInformation())
+             loginUser(userEmail.getText().toString(), userPass.getText().toString());
+    }
+
+    private boolean isValidInformation() {
+        String email = userEmail.getText().toString(), pass = userPass.getText().toString();
+        if (email.isEmpty() || pass.isEmpty()){
+            Toast.makeText(this,"All fields must be filled",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if (pass.length() < 6){
+            Toast.makeText(this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    public void registerClicked(View view) {
+        Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
+        startActivity(intentReg);
+    }
 }
 
 

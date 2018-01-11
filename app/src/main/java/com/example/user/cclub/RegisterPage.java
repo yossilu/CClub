@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 
@@ -50,13 +51,17 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     RelativeLayout activity_sign_up;
     Button userRegisterBtn;
 
+    private boolean imageFlag = false;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private DatabaseReference mFirebaseDatabaseReference;
+    private StorageReference storageReference;
     private FirebaseAuth auth;
     private static final int SIGN_IN=123;
+    private Uri selectedImg;
     Snackbar snackbar;
+    private FirebaseUser currentFirebaseUser;
 
 
 
@@ -131,20 +136,22 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        boolean flag = false;
+
         Bitmap bmap;
         if ((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (data != null)) {
-            Uri selectImg = data.getData();
+            selectedImg = data.getData();
             try {
-                bmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectImg);
+                bmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImg);
                 imageViewReg.setImageBitmap(bmap);
-                Toast.makeText(RegisterPage.this, "Image uploaded successfully", Toast.LENGTH_LONG).show();
+                imageFlag = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else if(requestCode == CAM_REQUEST) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            selectedImg = data.getData();
             imageViewReg.setImageBitmap(thumbnail);
+            imageFlag = true;
         }
 
 
@@ -184,7 +191,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
     private void createUser(){
         String UserTypeID = "3"; // TODO : change to real USERTYPEID
-        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
         String FirstName = userFirst.getText().toString().trim();
         String LastName = userLast.getText().toString().trim();
         String Email = emails.getText().toString().trim();
@@ -192,14 +199,19 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         String Password = passwords.getText().toString().trim();
         String Address = userAddress.getText().toString().trim();
         User u = new User(PhoneNumber,FirstName,LastName,Email,Password,Address,UserTypeID);
-
         //insert data in firebase database Users
         mFirebaseDatabaseReference.child(currentFirebaseUser.getUid()).setValue(u);
-
-
+        if (imageFlag){
+//            uploadImage();
+        }
         snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
         snackbar.show();
         finish();
+    }
+
+    private void uploadImage() {
+        storageReference = storageReference.child(currentFirebaseUser.getUid().toString() + " Photos").child(selectedImg.getLastPathSegment());
+        storageReference.putFile(selectedImg);
     }
 
     private void setupDrawer(){
