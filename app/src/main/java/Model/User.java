@@ -33,7 +33,8 @@ public class User {
         this.userTypeID = UserTypeID;
     }
 
-
+    public User() {
+    }
 
     public  String getPhoneNumber() {
         return phoneNumber;

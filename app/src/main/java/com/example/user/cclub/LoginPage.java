@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import Model.User;
 
 
@@ -42,6 +44,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private FirebaseAuth auth;
+    FirebaseUser user;
+    ArrayList<User> users=new ArrayList<User>();;
 
     private static GoogleAnalytics sAnalytics;
     private static Tracker sTracker;
@@ -51,6 +55,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+
+
 
         sAnalytics = GoogleAnalytics.getInstance(this);
 
@@ -102,16 +108,33 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d(mActivityTitle, "signInWithEmail:success");
-                        FirebaseUser user = auth.getCurrentUser();
+                        user = auth.getCurrentUser();
+                        DataSnapshot dst;
                         DatabaseReference dbRef;
                         dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
                         DatabaseReference dbRef2 = dbRef.child(user.getUid());
-                        dbRef.addChildEventListener(new ChildEventListener(){
+                        dbRef.addChildEventListener(new ChildEventListener() {
 
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                                 currentUser = dataSnapshot.getValue(User.class);
-                                Log.w("TAG","hi");
+                                String phoneNumber,firstName,lastName,email,password,address,userTypeID;
+                                Log.w("TAG", "hi");
+
+                               // for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    currentUser = new User(dataSnapshot.child("phoneNumber").getValue().toString(),dataSnapshot.child("firstName").getValue().toString(),
+                                            dataSnapshot.child("lastName").getValue().toString(),dataSnapshot.child("email").getValue().toString(),dataSnapshot.child("password").getValue().toString(),
+                                            dataSnapshot.child("address").getValue().toString(), dataSnapshot.child("userTypeID").getValue().toString());
+//                                    currentUser.setAddress( postSnapshot.child("address").getValue().toString());
+//                                    currentUser.setEmail(postSnapshot.child("email").getValue().toString());
+//                                    currentUser.setPassword( postSnapshot.child("password").getValue().toString());
+//                                    currentUser.setFirstName( postSnapshot.child("firstName").getValue().toString());
+//                                    currentUser.setLastName( postSnapshot.child("lastName").getValue().toString());
+//                                    currentUser.setPhoneNumber(postSnapshot.child("phoneNumber").getValue().toString());
+//                                    currentUser.setUserTypeID( postSnapshot.child("userTypeID").getValue().toString());
+                                    users.add(currentUser);
+                            //    }
+
                             }
 
                             @Override
@@ -136,6 +159,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                         dbRef2.child("userTypeID").setValue("1");
                         findViewById(R.id.LoginBtn).setVisibility(View.GONE);
                         startActivity(new Intent(LoginPage.this, MapsActivity.class));
+
                     }
                 }
             });
