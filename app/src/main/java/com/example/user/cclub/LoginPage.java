@@ -22,6 +22,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,10 +41,13 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     User currentUser;
     Button gotoreg,LoginBtn;
     EditText userEmail, userPass;
+    Bundle params;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private FirebaseAuth auth;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private String buttonClicked;
     FirebaseUser user;
     ArrayList<User> users=new ArrayList<User>();;
 
@@ -84,6 +88,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         sTracker.enableAdvertisingIdCollection(true);
         sTracker.enableExceptionReporting(true);
         sTracker.enableAutoActivityTracking(true);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        params  = new Bundle();
 
         //Init Firebase Auth
         auth = FirebaseAuth.getInstance();
@@ -267,6 +273,9 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     public void loginClicked(View view){
         if (isValidInformation())
              loginUser(userEmail.getText().toString(), userPass.getText().toString());
+        params.putInt("ButtonID",view.getId());
+        buttonClicked = "Login_Button";
+        mFirebaseAnalytics.logEvent(buttonClicked,params);
     }
 
     private boolean isValidInformation() {
@@ -283,9 +292,13 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void registerClicked(View view) {
+        params.putInt("ButtonID",view.getId());
+        buttonClicked = "Register_Button";
+        mFirebaseAnalytics.logEvent(buttonClicked,params);
         Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
         startActivity(intentReg);
     }
+
 }
 
 
