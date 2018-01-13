@@ -27,7 +27,9 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 
 public class ForgotPassword extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener {
-
+    //Menu references
+    MenuHandler menuHandler;
+    int menuCurrentID;
     private EditText input_email;
     private Button resetPass;
     private TextView backBtn;
@@ -56,7 +58,8 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         this.getSupportActionBar().setHomeButtonEnabled(true);
         NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
-
+        menuCurrentID = R.id.reset_page;
+        menuHandler = new MenuHandler(this,menuCurrentID);
         //view
         input_email = (EditText) findViewById(R.id.Email);
         resetPass = (Button) findViewById(R.id.resetBtn);
@@ -154,42 +157,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.login_page:
-                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ForgotPassword.this, LoginPage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.readme_page:
-                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ForgotPassword.this, ReadmePage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.map_page:
-                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ForgotPassword.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.dashboard_page:
-                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ForgotPassword.this, Dashboard.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.reset_page:
-                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ForgotPassword.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
-                break;
-
-
-        }
+        menuHandler.onNavigationItemSelected(item);
         return false;
     }
 }

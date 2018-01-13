@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class Dashboard extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener {
-
+    //Menu references
+    MenuHandler menuHandler;
+    int menuCurrentID;
     private TextView welcome;
     private EditText newPassword;
     private Button btnChangePass, btnLogout;
@@ -45,14 +46,18 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutDash);
         mActivityTitle = getTitle().toString();
-
         setupDrawer();
+        auth = FirebaseAuth.getInstance();
         findViewById(R.id.LogOutBtn).setVisibility(View.VISIBLE);
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
         NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
+
+
+        menuCurrentID = R.id.dashboard_page;
+        menuHandler = new MenuHandler(this,menuCurrentID);
 
         welcome = (TextView) findViewById(R.id.dashboardText);
         newPassword = (EditText) findViewById(R.id.newPass);
@@ -64,7 +69,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         btnLogout.setOnClickListener(this);
 
         //init firebase
-        auth = FirebaseAuth.getInstance();
+
 
         //session check
         if (auth.getCurrentUser() != null)
@@ -84,10 +89,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     private void logoutUser() {
         auth.signOut();
-        if(auth.getCurrentUser() != null){
-            startActivity(new Intent(Dashboard.this,MapsActivity.class));
-            finish();
+        if(auth.getCurrentUser() == null) {
+            startActivity(new Intent(Dashboard.this, LoginPage.class));
         }
+        finish();
+
     }
 
     private void changePassword(String newPass) {
@@ -158,40 +164,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.login_page:
-                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(Dashboard.this, LoginPage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.readme_page:
-                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
-                intent = new Intent(Dashboard.this, ReadmePage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.map_page:
-                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
-                intent = new Intent(Dashboard.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.dashboard_page:
-                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(Dashboard.this, Dashboard.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.reset_page:
-                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(Dashboard.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
-                break;
-        }
+        menuHandler.onNavigationItemSelected(item);
         return false;
     }
 }

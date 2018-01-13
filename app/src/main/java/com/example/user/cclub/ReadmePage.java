@@ -15,7 +15,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class ReadmePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    //Menu references
+    MenuHandler menuHandler;
+    int menuCurrentID;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
@@ -29,12 +31,16 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutReadme);
         mActivityTitle = getTitle().toString();
 
+
         setupDrawer();
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
         NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
+
+        menuCurrentID = R.id.readme_page;
+        menuHandler = new MenuHandler(this,menuCurrentID);
 
     /*    Button gotoLogin = (Button) findViewById(R.id.gotoBtnReadme);
         gotoLogin.setOnClickListener(new View.OnClickListener() {
@@ -101,42 +107,7 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.login_page:
-                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ReadmePage.this, LoginPage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.readme_page:
-                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ReadmePage.this, ReadmePage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.map_page:
-                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ReadmePage.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.dashboard_page:
-                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ReadmePage.this, Dashboard.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.reset_page:
-                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(ReadmePage.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
-                break;
-
-
-        }
+        menuHandler.onNavigationItemSelected(item);
         return false;
     }
 }

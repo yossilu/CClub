@@ -43,6 +43,9 @@ import Model.User;
 
 
 public class RegisterPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    //Menu references
+    MenuHandler menuHandler;
+    int menuCurrentID;
     private static final int CAM_REQUEST = 1313;
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
@@ -84,6 +87,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         this.getSupportActionBar().setHomeButtonEnabled(true);
         NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
+
+        menuCurrentID = R.id.readme_page;
+        menuHandler = new MenuHandler(this,menuCurrentID);
 
         userPhone = (AutoCompleteTextView) findViewById(R.id.userPhone);
         userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
@@ -287,42 +293,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.login_page:
-                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterPage.this, LoginPage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.readme_page:
-                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterPage.this, ReadmePage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.map_page:
-                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterPage.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.dashboard_page:
-                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterPage.this, Dashboard.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.reset_page:
-                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(RegisterPage.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
-                break;
-
-
-        }
+        menuHandler.onNavigationItemSelected(item);
         return false;
     }
 }

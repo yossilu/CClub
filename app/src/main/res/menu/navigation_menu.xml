@@ -39,6 +39,13 @@
         android:title="Reset Password"
         app:showAsAction="ifRoom"
         tools:ignore="DuplicateIds" />
+    <item
+        android:id="@+id/logout_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Logout"
+        app:showAsAction="ifRoom"
+        tools:ignore="DuplicateIds" />
 
 
 </menu>

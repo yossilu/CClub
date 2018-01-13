@@ -10,6 +10,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,6 +40,10 @@ import Model.User;
 
 
 public class LoginPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    //Menu references
+    MenuHandler menuHandler;
+    int menuCurrentID;
+
     User currentUser;
     Button gotoreg,LoginBtn;
     EditText userEmail, userPass;
@@ -72,8 +78,13 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
+
+        //initializing menu
         NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
+        menuCurrentID = R.id.login_page;
+        menuHandler = new MenuHandler(this,menuCurrentID);
+
 
         //init
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -81,7 +92,6 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         gotoreg = (Button) findViewById(R.id.regButton);
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPass = (AutoCompleteTextView) findViewById(R.id.userPass);
-
 
         //google analytic
         sTracker = sAnalytics.newTracker("UA-112233096-1");
@@ -96,7 +106,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
         //check session, if ok go to menu
         if(auth.getCurrentUser() != null)
-            startActivity(new Intent(LoginPage.this,MapsActivity.class));
+            startActivity(new Intent(LoginPage.this,Dashboard.class));
 
     }
 
@@ -120,7 +130,6 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                         dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
                         DatabaseReference dbRef2 = dbRef.child(user.getUid());
                         dbRef.addChildEventListener(new ChildEventListener() {
-
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                                 currentUser = dataSnapshot.getValue(User.class);
@@ -128,10 +137,10 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                                 Log.w("TAG", "hi");
 
                                // for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                    currentUser = new User(dataSnapshot.child("phoneNumber").getValue().toString(),dataSnapshot.child("firstName").getValue().toString(),
-                                            dataSnapshot.child("lastName").getValue().toString(),dataSnapshot.child("email").getValue().toString(),dataSnapshot.child("password").getValue().toString(),
-                                            dataSnapshot.child("address").getValue().toString(), dataSnapshot.child("userTypeID").getValue().toString());
-//                                    currentUser.setAddress( postSnapshot.child("address").getValue().toString());
+//                                    currentUser = new User(dataSnapshot.child("phoneNumber").getValue().toString(),dataSnapshot.child("firstName").getValue().toString(),
+//                                            dataSnapshot.child("lastName").getValue().toString(),dataSnapshot.child("email").getValue().toString(),dataSnapshot.child("password").getValue().toString(),
+//                                            dataSnapshot.child("address").getValue().toString(), dataSnapshot.child("userTypeID").getValue().toString());
+////                                    currentUser.setAddress( postSnapshot.child("address").getValue().toString());
 //                                    currentUser.setEmail(postSnapshot.child("email").getValue().toString());
 //                                    currentUser.setPassword( postSnapshot.child("password").getValue().toString());
 //                                    currentUser.setFirstName( postSnapshot.child("firstName").getValue().toString());
@@ -163,9 +172,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                             }
                         });
                         dbRef2.child("userTypeID").setValue("1");
-                        findViewById(R.id.LoginBtn).setVisibility(View.GONE);
-                        startActivity(new Intent(LoginPage.this, MapsActivity.class));
-
+                        startActivity(new Intent(LoginPage.this, Dashboard.class));
+                        finish();
                     }
                 }
             });
@@ -233,40 +241,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
         int id = item.getItemId();
-        switch(id) {
-            case R.id.login_page:
-                Toast.makeText(this,"Already at Login page",Toast.LENGTH_SHORT).show();
-                finish();
-                break;
-            case R.id.readme_page:
-                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
-                intent = new Intent(LoginPage.this, ReadmePage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.map_page:
-                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
-                intent = new Intent(LoginPage.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.dashboard_page:
-                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(LoginPage.this, Dashboard.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.reset_page:
-                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(LoginPage.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
-                break;
-
-
-        }
+        menuHandler.onNavigationItemSelected(item);
         return false;
     }
 

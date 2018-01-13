@@ -30,6 +30,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
 
+    //Menu references
+    MenuHandler menuHandler;
+    int menuCurrentID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutMap);
         mActivityTitle = getTitle().toString();
+
+        menuCurrentID = R.id.map_page;
+        menuHandler = new MenuHandler(this,menuCurrentID);
 
         setupDrawer();
 
@@ -131,41 +138,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
-        int id = item.getItemId();
-        switch(id) {
-            case R.id.login_page:
-                Toast.makeText(this,"Going to Login",Toast.LENGTH_SHORT).show();
-                intent = new Intent(MapsActivity.this, LoginPage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.readme_page:
-                Toast.makeText(this,"Going to Readme",Toast.LENGTH_SHORT).show();
-                intent = new Intent(MapsActivity.this, ReadmePage.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.map_page:
-                Toast.makeText(this,"Going to our location",Toast.LENGTH_SHORT).show();
-                intent = new Intent(MapsActivity.this, MapsActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.dashboard_page:
-                Toast.makeText(this,"Going to change password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(MapsActivity.this, Dashboard.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.reset_page:
-                Toast.makeText(this,"Going to reset password area",Toast.LENGTH_SHORT).show();
-                intent = new Intent(MapsActivity.this, ForgotPassword.class);
-                startActivity(intent);
-                finish();
-                break;
-
-        }
+        menuHandler.onNavigationItemSelected(item);
         return false;
     }
 }
