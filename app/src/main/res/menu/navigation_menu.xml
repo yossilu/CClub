@@ -16,8 +16,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_myinfo"
         android:title="My Info"
-        app:showAsAction="ifRoom"
-        tools:ignore="DuplicateIds" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/login_page"

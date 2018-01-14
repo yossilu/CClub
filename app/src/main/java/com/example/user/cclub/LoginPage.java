@@ -67,8 +67,6 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
-
-
         sAnalytics = GoogleAnalytics.getInstance(this);
 
         //action bar init
@@ -106,9 +104,11 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         auth = FirebaseAuth.getInstance();
         currentUser = User.getCurrentUser();
         //check session, if ok go to menu
-        if(auth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null) {
+        //    while (User.getCurrentUser() == null) {}
             startActivity(new Intent(LoginPage.this, Dashboard.class));
             finish();
+
         }
     }
 
@@ -131,7 +131,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                                     String value = String.valueOf(child.getKey());
                                     if (child.getKey().toString().equals(uid))
-                                       currentUser = child.getValue(User.class);
+                                       User.currentUser = child.getValue(User.class);
                                 }
                                 String phoneNumber,firstName,lastName,email,password,address,userTypeID;
                                 Log.w("TAG", "hi");
@@ -141,6 +141,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         });
+                        startActivity(new Intent(LoginPage.this, Dashboard.class));
+                        finish();
                     }
                 }
             });
@@ -218,10 +220,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         params.putInt("ButtonID",view.getId());
         buttonClicked = "Login_Button";
         mFirebaseAnalytics.logEvent(buttonClicked,params);
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginPage.this, Dashboard.class));
-            finish();
-        }
+
     }
 
     private boolean isValidInformation() {

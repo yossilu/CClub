@@ -29,14 +29,19 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import Model.User;
@@ -65,7 +70,8 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     private Uri selectedImg;
     Snackbar snackbar;
     private FirebaseUser currentFirebaseUser;
-
+    private boolean isGallery = false;
+    private byte[] dataBytes;
 
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -109,7 +115,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
         //init firebase
         auth = FirebaseAuth.getInstance();
-
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -140,24 +146,22 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
-        Bitmap bmap;
-        if ((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (data != null)) {
-            selectedImg = data.getData();
-            try {
-                bmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImg);
-                imageViewReg.setImageBitmap(bmap);
-                imageFlag = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if(requestCode == CAM_REQUEST) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            selectedImg = data.getData();
-            imageViewReg.setImageBitmap(thumbnail);
+        if ((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (intent != null)) {
+            selectedImg = intent.getData();
+            imageViewReg.setImageURI(selectedImg);
             imageFlag = true;
+            isGallery = true;
+        } else if(requestCode == CAM_REQUEST) {
+            Bitmap bit = (Bitmap)intent.getExtras().get("data");
+            imageViewReg.setImageBitmap(bit);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bit.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            dataBytes = baos.toByteArray();
+            imageFlag = true;
+            isGallery = false;
         }
 
 
@@ -196,7 +200,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     }
 
     private void createUser(){
-        String UserTypeID = "3"; // TODO : change to real USERTYPEID
+        String UserTypeID = "1"; // TODO : change to real USERTYPEID
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
         String FirstName = userFirst.getText().toString().trim();
         String LastName = userLast.getText().toString().trim();
@@ -207,17 +211,42 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         User u = new User(PhoneNumber,FirstName,LastName,Email,Password,Address,UserTypeID);
         //insert data in firebase database Users
         mFirebaseDatabaseReference.child(currentFirebaseUser.getUid()).setValue(u);
-        if (imageFlag){
-//            uploadImage();
+        if (imageFlag && currentFirebaseUser != null){
+            uploadImage();
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+            finish();
         }
         snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
         snackbar.show();
-        finish();
     }
 
     private void uploadImage() {
-        storageReference = storageReference.child(currentFirebaseUser.getUid().toString() + " Photos").child(selectedImg.getLastPathSegment());
-        storageReference.putFile(selectedImg);
+        UploadTask uploadTask;
+        storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference strf = storageReference.child("images").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("privateimg.jpg");
+        if (!isGallery) {
+            uploadTask = strf.putBytes(dataBytes);
+        }
+        else{
+            uploadTask = strf.putFile(selectedImg);
+        }
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(RegisterPage.this, "Photo uploaded successfully!", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(RegisterPage.this, "Photo upload failed!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void setupDrawer(){
@@ -295,6 +324,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         menuHandler.onNavigationItemSelected(item);
         return false;
+    }
+    public void uploadClicked(View view){
+
     }
 }
 

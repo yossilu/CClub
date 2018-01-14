@@ -72,7 +72,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
 
         //session check
-        if (auth.getCurrentUser() != null && currentUser != null) {
+        if (auth.getCurrentUser() != null && User.getCurrentUser() != null) {
             currentUser = User.getCurrentUser();
             welcome.setText("Hi " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         }
