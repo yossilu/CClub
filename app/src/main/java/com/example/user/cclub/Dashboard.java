@@ -22,8 +22,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import Model.User;
 
-public class Dashboard extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener {
+
+public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu references
     MenuHandler menuHandler;
     int menuCurrentID;
@@ -35,7 +37,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
-
+    private User currentUser;
     private FirebaseAuth auth;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,28 +67,24 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         btnLogout = (Button) findViewById(R.id.LogOutBtn);
         Activity_dashboard = (RelativeLayout) findViewById(R.id.dashboardFragment);
 
-        btnChangePass.setOnClickListener(this);
-        btnLogout.setOnClickListener(this);
-
         //init firebase
 
 
         //session check
-        if (auth.getCurrentUser() != null)
-            welcome.setText("Welcome, " + auth.getCurrentUser().getEmail());
-
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.changePass){
-            changePassword(newPassword.getText().toString());
-        } else if(view.getId() == R.id.LogOutBtn){
-            logoutUser();
+        if (auth.getCurrentUser() != null) {
+            currentUser = User.getCurrentUser();
+            welcome.setText("Hi " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         }
+
+
     }
 
+    public void changePasswordClicked(View view){
+        changePassword(newPassword.getText().toString());
+    }
+    public void logoutClicked(View view){
+        logoutUser();
+    }
     private void logoutUser() {
         auth.signOut();
         if(auth.getCurrentUser() == null) {
@@ -103,6 +101,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Snackbar snackbar = Snackbar.make(Activity_dashboard,"Password Changed",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else{
+                    Snackbar snackbar = Snackbar.make(Activity_dashboard,"Failed to change password",Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
             }
@@ -167,4 +169,5 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
+
 }

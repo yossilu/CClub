@@ -136,6 +136,7 @@
                     android:layout_marginRight="30dp"
                     android:background="@drawable/registeration_button"
                     android:text="Logout"
+                    android:onClick="logoutClicked"
                     android:textColor="@color/white"
                     android:textStyle="normal"
                     android:textAllCaps="false"

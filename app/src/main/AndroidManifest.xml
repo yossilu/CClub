@@ -70,6 +70,7 @@
         <activity android:name=".ForgotPassword" />
         <activity android:name=".RegisterPage" />
         <activity android:name=".ReadmePage" />
+        <activity android:name=".UserInfoPage" />
     </application>
 
 </manifest>

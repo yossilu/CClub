@@ -18,12 +18,17 @@ import java.util.ArrayList;
  */
 
 public class MenuHandler {
+    static int[] pagesForAll = {R.id.readme_page,R.id.map_page};
+    static int[] pagesForLoggedIn = {R.id.dashboard_page,R.id.logout_page,R.id.info_page};
+    static int[] pagesForRest = {R.id.login_page,R.id.reset_page};
     final int NOT_EXIST_PAGE = 0;
     boolean isLoggedIn;
     Menu menu;
     AppCompatActivity currentPage;
     int currentPageID;
     ArrayList<MenuItem> menuItems;
+
+
     public MenuHandler(AppCompatActivity currentPage, int currentPageID){
         isLoggedIn = (FirebaseAuth.getInstance().getCurrentUser() != null);
         menu = (Menu)((NavigationView)currentPage.findViewById(R.id.nav_view)).getMenu();
@@ -72,6 +77,12 @@ public class MenuHandler {
                         currentPage.startActivity(intent);
                         currentPage.finish();
                         break;
+                case R.id.info_page:
+                    Toast.makeText(currentPage, "Going to personal info", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(currentPage, UserInfoPage.class);
+                    currentPage.startActivity(intent);
+                    currentPage.finish();
+                    break;
                     case R.id.logout_page:
                         Toast.makeText(currentPage, "Logged out successfully", Toast.LENGTH_SHORT).show();
                         intent = new Intent(currentPage, LoginPage.class);
@@ -85,16 +96,20 @@ public class MenuHandler {
 
     public void setVisibilityForItems() {
         isLoggedIn = (FirebaseAuth.getInstance().getCurrentUser() != null);
-        for (int i = 0; i < menu.size(); i++){
-            if (!isLoggedIn && (menu.getItem(i).getItemId() == R.id.login_page || menu.getItem(i).getItemId() == R.id.readme_page || menu.getItem(i).getItemId() == R.id.map_page)) {
-                menu.getItem(i).setVisible(true);
-            }
-            else if (!isLoggedIn)
-                menu.getItem(i).setVisible(false);
-            else if (isLoggedIn && menu.getItem(i).getItemId() == R.id.login_page)
-                menu.getItem(i).setVisible(false);
-            else
-                menu.getItem(i).setVisible(true);
+        for (MenuItem item : menuItems){
+            if (isLoggedIn && isExist(pagesForLoggedIn,item.getItemId()))
+                item.setVisible(true);
+            else if (!isLoggedIn && isExist(pagesForRest,item.getItemId()))
+                item.setVisible(true);
+            else if (!isExist(pagesForAll,item.getItemId()))
+                item.setVisible(false);
         }
+    }
+    private boolean isExist(int[] arr,int key){
+        for (int i = 0 ; i < arr.length ; i ++){
+            if (key == arr[i])
+                return true;
+        }
+        return false;
     }
 }

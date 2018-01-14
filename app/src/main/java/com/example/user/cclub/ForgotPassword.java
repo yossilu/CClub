@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * Created by yosil on 12/30/2017.
  */
 
-public class ForgotPassword extends AppCompatActivity implements View.OnClickListener,NavigationView.OnNavigationItemSelectedListener {
+public class ForgotPassword extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu references
     MenuHandler menuHandler;
     int menuCurrentID;
@@ -63,11 +63,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         //view
         input_email = (EditText) findViewById(R.id.Email);
         resetPass = (Button) findViewById(R.id.resetBtn);
-        backBtn = (Button) findViewById(R.id.backBtn);
         activity_forgot = (RelativeLayout) findViewById(R.id.activityForgotFragment);
-
-        backBtn.setOnClickListener(this);
-        resetPass.setOnClickListener(this);
 
         //init firebase
         auth = FirebaseAuth.getInstance();
@@ -75,14 +71,6 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.backBtn){
-            startActivity(new Intent(this,MapsActivity.class));
-        } else if(view.getId() == R.id.resetBtn) {
-            resetPassword(input_email.getText().toString());
-        }
-    }
 
     private void resetPassword(final String email) {
         auth.sendPasswordResetEmail(email)
@@ -160,4 +148,8 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
+    public void resetClicked(View view){
+        resetPassword(input_email.getText().toString());
+    }
+
 }

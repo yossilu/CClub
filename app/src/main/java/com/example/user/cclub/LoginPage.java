@@ -33,6 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -103,15 +104,13 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
         //Init Firebase Auth
         auth = FirebaseAuth.getInstance();
-
+        currentUser = User.getCurrentUser();
         //check session, if ok go to menu
-        if(auth.getCurrentUser() != null)
-            startActivity(new Intent(LoginPage.this,Dashboard.class));
-
+        if(auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginPage.this, Dashboard.class));
+            finish();
+        }
     }
-
-
-
 
     private void loginUser(final String email,final String pass) {
 
@@ -124,56 +123,24 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d(mActivityTitle, "signInWithEmail:success");
-                        user = auth.getCurrentUser();
-                        DataSnapshot dst;
-                        DatabaseReference dbRef;
-                        dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
-                        DatabaseReference dbRef2 = dbRef.child(user.getUid());
-                        dbRef.addChildEventListener(new ChildEventListener() {
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
+                        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                                currentUser = dataSnapshot.getValue(User.class);
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String uid = auth.getCurrentUser().getUid();
+                                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                    String value = String.valueOf(child.getKey());
+                                    if (child.getKey().toString().equals(uid))
+                                       currentUser = child.getValue(User.class);
+                                }
                                 String phoneNumber,firstName,lastName,email,password,address,userTypeID;
                                 Log.w("TAG", "hi");
-
-                               // for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                                    currentUser = new User(dataSnapshot.child("phoneNumber").getValue().toString(),dataSnapshot.child("firstName").getValue().toString(),
-//                                            dataSnapshot.child("lastName").getValue().toString(),dataSnapshot.child("email").getValue().toString(),dataSnapshot.child("password").getValue().toString(),
-//                                            dataSnapshot.child("address").getValue().toString(), dataSnapshot.child("userTypeID").getValue().toString());
-////                                    currentUser.setAddress( postSnapshot.child("address").getValue().toString());
-//                                    currentUser.setEmail(postSnapshot.child("email").getValue().toString());
-//                                    currentUser.setPassword( postSnapshot.child("password").getValue().toString());
-//                                    currentUser.setFirstName( postSnapshot.child("firstName").getValue().toString());
-//                                    currentUser.setLastName( postSnapshot.child("lastName").getValue().toString());
-//                                    currentUser.setPhoneNumber(postSnapshot.child("phoneNumber").getValue().toString());
-//                                    currentUser.setUserTypeID( postSnapshot.child("userTypeID").getValue().toString());
-                                    users.add(currentUser);
-                            //    }
-
-                            }
-
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         });
-                        dbRef2.child("userTypeID").setValue("1");
-                        startActivity(new Intent(LoginPage.this, Dashboard.class));
-                        finish();
                     }
                 }
             });
@@ -241,7 +208,6 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
@@ -252,6 +218,10 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         params.putInt("ButtonID",view.getId());
         buttonClicked = "Login_Button";
         mFirebaseAnalytics.logEvent(buttonClicked,params);
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginPage.this, Dashboard.class));
+            finish();
+        }
     }
 
     private boolean isValidInformation() {
@@ -274,6 +244,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
         startActivity(intentReg);
     }
+
 
 }
 

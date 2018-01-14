@@ -141,6 +141,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
+
 }
 
 

@@ -110,4 +110,6 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
+
+
 }
