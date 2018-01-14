@@ -209,19 +209,16 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         String Password = passwords.getText().toString().trim();
         String Address = userAddress.getText().toString().trim();
         User u = new User(PhoneNumber,FirstName,LastName,Email,Password,Address,UserTypeID);
+        User.currentUser = u;
         //insert data in firebase database Users
         mFirebaseDatabaseReference.child(currentFirebaseUser.getUid()).setValue(u);
+        Intent intent;
         if (imageFlag && currentFirebaseUser != null){
             uploadImage();
-            Intent intent = new Intent(this, Dashboard.class);
-            startActivity(intent);
-            finish();
         }
-        else{
-            Intent intent = new Intent(this, Dashboard.class);
-            startActivity(intent);
-            finish();
-        }
+        intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+        finish();
         snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
         snackbar.show();
     }

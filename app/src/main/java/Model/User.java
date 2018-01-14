@@ -1,7 +1,12 @@
 package Model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -9,6 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 /**
  * Created by user on 12/31/2017.
@@ -18,6 +26,23 @@ public class User {
     private static FirebaseAuth mAuth;
     private static DatabaseReference dbRef;
     public static User currentUser = null;
+    public static Bitmap currentPicture = null;
+
+//    public static Bitmap getCurrentPicture() {
+//        if (FirebaseAuth.getInstance().getCurrentUser() == null)
+//            return null;
+//        else if (currentPicture == null){
+//            initializePicture();
+//            try {
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return currentPicture;
+//    }
+
+
     private  String phoneNumber;
     private  String firstName;
     private  String lastName;
@@ -43,7 +68,26 @@ public class User {
 
     public User() {
     }
-    public static void initialize(){
+    private static void initializePicture(){
+        final Bitmap[] bitmap = {null};
+        final int FIVE_MEGABYTE = 1024*1024*5;
+        if (currentUser != null){
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference strf = storageReference.child("images").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("privateimg.jpg");
+            strf.getBytes(FIVE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    currentPicture = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+        }
+    }
+    private static void initialize(){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
 

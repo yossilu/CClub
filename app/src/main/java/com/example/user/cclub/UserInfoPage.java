@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,18 +26,28 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide.*;
+import com.bumptech.glide.*;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import Model.User;
@@ -56,13 +67,15 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
     private ImageButton uploadButton;
-    private ImageView imageViewReg;
+    private ImageView imageView;
     private Uri selectedImg;
     private static final int CAM_REQUEST = 1313;
     private static final int RESULT_LOAD_IMG = 1;
     private boolean imageFlag = false;
     private boolean isGallery = false;
     private StorageReference storageReference;
+    private DatabaseReference databaseReference;
+    private Bitmap currentPicture;
     private byte[] dataBytes;
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -88,12 +101,11 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         nav_view.setNavigationItemSelectedListener(this);
         menuCurrentID = R.id.info_page;
         menuHandler = new MenuHandler(this,menuCurrentID);
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
         //init
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         currentUser = User.getCurrentUser();
-
         userEmail = (AutoCompleteTextView) findViewById(R.id.userEmail);
         userPhone = (AutoCompleteTextView) findViewById(R.id.userPhone);
         userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
@@ -101,9 +113,14 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         userAddress = (AutoCompleteTextView) findViewById(R.id.userAddress);
         uploadButton = (ImageButton) findViewById(R.id.photoBtnUpload) ;
         uploadButton.setVisibility(View.INVISIBLE);
-        imageViewReg = (ImageView) findViewById(R.id.imageViewReg);
-
+        imageView = (ImageView) findViewById(R.id.image_view);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference strf = storageReference.child("images").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("privateimg.jpg");
+        String filePath = "gs://c-club-86d82.appspot.com/" + strf.getPath().toString();
+        //pictureThread.start();
+        Glide.with(this).using(new FirebaseImageLoader()).load(strf).into(imageView);
         userEmail.setText(currentUser.getEmail());
+        userEmail.setActivated(false);
         userPhone.setText(currentUser.getPhoneNumber());
         userFirst.setText(currentUser.getFirstName());
         userLast.setText(currentUser.getLastName());
@@ -132,13 +149,13 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
 
         if ((requestCode == RESULT_LOAD_IMG) && (resultCode == RESULT_OK) && (intent != null)) {
             selectedImg = intent.getData();
-            imageViewReg.setImageURI(selectedImg);
+            imageView.setImageURI(selectedImg);
             uploadButton.setVisibility(View.VISIBLE);
             imageFlag = true;
             isGallery = true;
         } else if(requestCode == CAM_REQUEST) {
             Bitmap bit = (Bitmap)intent.getExtras().get("data");
-            imageViewReg.setImageBitmap(bit);
+            imageView.setImageBitmap(bit);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bit.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -219,8 +236,27 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void updateClicked(View view){
+    private boolean validInformation() {    //TODO : add toasts for invalid information
+        String name = ""+userFirst.getText().toString().trim();
+        String Lname = ""+userLast.getText().toString().trim();
+        String phone = ""+userPhone.getText().toString().trim();
+        String add = ""+userAddress.getText().toString().trim();
+        if (name.length()<3 || Lname.length()<3  || phone.length()<3 || add.length()<3) {
+            Toast.makeText(UserInfoPage.this, "All fields must be filled and contain at least 3 letters", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
 
+    public void updateClicked(View view){
+        if (validInformation()){
+        FirebaseUser fu = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = databaseReference.child(fu.getUid().toString());
+        databaseReference.child("phoneNumber").setValue(userPhone.getText().toString().trim());
+        databaseReference.child("firstName").setValue(userFirst.getText().toString().trim());
+        databaseReference.child("lastName").setValue(userLast.getText().toString().trim());
+        databaseReference.child("address").setValue(userAddress.getText().toString().trim());
+    }
     }
 
     public void uploadClicked(View view) {

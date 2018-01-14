@@ -208,7 +208,7 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/imageViewReg"
+                    android:id="@+id/image_view"
                     android:layout_width="106dp"
                     android:layout_height="65dp"
                     android:layout_gravity="center_horizontal"
