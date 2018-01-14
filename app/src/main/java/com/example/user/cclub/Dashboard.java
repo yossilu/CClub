@@ -50,6 +50,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         mActivityTitle = getTitle().toString();
         setupDrawer();
         auth = FirebaseAuth.getInstance();
+        currentUser = User.getCurrentUser();
         findViewById(R.id.LogOutBtn).setVisibility(View.VISIBLE);
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,7 +72,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
 
         //session check
-        if (auth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null && currentUser != null) {
             currentUser = User.getCurrentUser();
             welcome.setText("Hi " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         }
