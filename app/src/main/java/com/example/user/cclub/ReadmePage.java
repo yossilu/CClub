@@ -36,11 +36,11 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
 
         menuCurrentID = R.id.readme_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
 
     /*    Button gotoLogin = (Button) findViewById(R.id.gotoBtnReadme);
         gotoLogin.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +52,7 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
         });*/
     }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -61,7 +61,7 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -80,8 +80,8 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

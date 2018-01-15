@@ -55,7 +55,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     private static final int RESULT_LOAD_IMG = 1;
     ImageView imageViewReg;
     ImageButton galleryBtn, cameraBtn2;
-    AutoCompleteTextView userEmail, userPassword, userVerifPass, userPhone, userFirst, userLast, userAddress,emails,passwords;
+    AutoCompleteTextView userEmail, userPassword, userVerifPass, userPhone, userFirst, userLast, userAddress, emails, passwords;
     RelativeLayout activity_sign_up;
     Button userRegisterBtn;
 
@@ -66,7 +66,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     private DatabaseReference mFirebaseDatabaseReference;
     private StorageReference storageReference;
     private FirebaseAuth auth;
-    private static final int SIGN_IN=123;
+    private static final int SIGN_IN = 123;
     private Uri selectedImg;
     Snackbar snackbar;
     private FirebaseUser currentFirebaseUser;
@@ -91,11 +91,11 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
 
         menuCurrentID = R.id.readme_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
 
         userPhone = (AutoCompleteTextView) findViewById(R.id.userPhone);
         userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
@@ -125,10 +125,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         }
 
 
-
-
     }
-
 
 
     @Override
@@ -154,8 +151,8 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
             imageViewReg.setImageURI(selectedImg);
             imageFlag = true;
             isGallery = true;
-        } else if(requestCode == CAM_REQUEST) {
-            Bitmap bit = (Bitmap)intent.getExtras().get("data");
+        } else if (requestCode == CAM_REQUEST) {
+            Bitmap bit = (Bitmap) intent.getExtras().get("data");
             imageViewReg.setImageBitmap(bit);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bit.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -185,35 +182,34 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     }
 
     private void signUpUser(String email, final String password) {
-        auth.createUserWithEmailAndPassword(email,password)
+        auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Toast.makeText(RegisterPage.this, task.getException().toString(), Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        } else {
                             createUser();
                         }
                     }
                 });
     }
 
-    private void createUser(){
+    private void createUser() {
         String UserTypeID = "1"; // TODO : change to real USERTYPEID
-        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String FirstName = userFirst.getText().toString().trim();
         String LastName = userLast.getText().toString().trim();
         String Email = emails.getText().toString().trim();
         String PhoneNumber = userPhone.getText().toString().trim();
         String Password = passwords.getText().toString().trim();
         String Address = userAddress.getText().toString().trim();
-        User u = new User(PhoneNumber,FirstName,LastName,Email,Password,Address,UserTypeID);
+        User u = new User(PhoneNumber, FirstName, LastName, Email, Password, Address, UserTypeID);
         User.currentUser = u;
         //insert data in firebase database Users
         mFirebaseDatabaseReference.child(currentFirebaseUser.getUid()).setValue(u);
         Intent intent;
-        if (imageFlag && currentFirebaseUser != null){
+        if (imageFlag && currentFirebaseUser != null) {
             uploadImage();
         }
         intent = new Intent(this, Dashboard.class);
@@ -229,8 +225,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         StorageReference strf = storageReference.child("images").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("privateimg.jpg");
         if (!isGallery) {
             uploadTask = strf.putBytes(dataBytes);
-        }
-        else{
+        } else {
             uploadTask = strf.putFile(selectedImg);
         }
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -246,7 +241,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -255,7 +250,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -274,8 +269,8 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -299,19 +294,21 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public void registerClicked(View view){
+    public void registerClicked(View view) {
         if (validInformation())
-            signUpUser(userEmail.getText().toString().trim(),userPassword.getText().toString().trim());
-        else{
+            signUpUser(userEmail.getText().toString().trim(), userPassword.getText().toString().trim());
+        else {
             Toast.makeText(RegisterPage.this, "Not all fields are filled!", Toast.LENGTH_LONG).show();
         }
     }
-    public void galleryClicked(View view){
+
+    public void galleryClicked(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
         Toast.makeText(RegisterPage.this, "Please choose a photo from gallery", Toast.LENGTH_LONG).show();
     }
-    public void photoClicked(View view){
+
+    public void photoClicked(View view) {
         Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(photoIntent, CAM_REQUEST);
         Toast.makeText(RegisterPage.this, "Please Take a photo", Toast.LENGTH_LONG).show();
@@ -322,7 +319,8 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
-    public void uploadClicked(View view){
+
+    public void uploadClicked(View view) {
 
     }
 }

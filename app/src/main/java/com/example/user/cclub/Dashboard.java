@@ -55,12 +55,12 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
 
 
         menuCurrentID = R.id.dashboard_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
 
         welcome = (TextView) findViewById(R.id.dashboardText);
         newPassword = (EditText) findViewById(R.id.newPass);
@@ -80,15 +80,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-    public void changePasswordClicked(View view){
+    public void changePasswordClicked(View view) {
         changePassword(newPassword.getText().toString());
     }
-    public void logoutClicked(View view){
+
+    public void logoutClicked(View view) {
         logoutUser();
     }
+
     private void logoutUser() {
         auth.signOut();
-        if(auth.getCurrentUser() == null) {
+        if (auth.getCurrentUser() == null) {
             startActivity(new Intent(Dashboard.this, LoginPage.class));
         }
         finish();
@@ -100,19 +102,18 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         user.updatePassword(newPass).addOnCompleteListener(this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Snackbar snackbar = Snackbar.make(Activity_dashboard,"Password Changed",Snackbar.LENGTH_SHORT);
+                if (task.isSuccessful()) {
+                    Snackbar snackbar = Snackbar.make(Activity_dashboard, "Password Changed", Snackbar.LENGTH_SHORT);
                     snackbar.show();
-                }
-                else{
-                    Snackbar snackbar = Snackbar.make(Activity_dashboard,"Failed to change password",Snackbar.LENGTH_SHORT);
+                } else {
+                    Snackbar snackbar = Snackbar.make(Activity_dashboard, "Failed to change password", Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
             }
         });
     }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -121,7 +122,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -140,8 +141,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

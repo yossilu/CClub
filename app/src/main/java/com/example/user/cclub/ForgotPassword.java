@@ -42,7 +42,6 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
     private FirebaseAuth auth;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -56,10 +55,10 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
         menuCurrentID = R.id.reset_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
         //view
         input_email = (EditText) findViewById(R.id.Email);
         resetPass = (Button) findViewById(R.id.resetBtn);
@@ -74,23 +73,21 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
 
     private void resetPassword(final String email) {
         auth.sendPasswordResetEmail(email)
-        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
-                    Snackbar snackbar = Snackbar.make(activity_forgot,"A Password has been sent to your Email: "+email,Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else {
-                    Snackbar snackbar = Snackbar.make(activity_forgot,"Failed to send password",Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-            }
-        });
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Snackbar snackbar = Snackbar.make(activity_forgot, "A Password has been sent to your Email: " + email, Snackbar.LENGTH_SHORT);
+                            snackbar.show();
+                        } else {
+                            Snackbar snackbar = Snackbar.make(activity_forgot, "Failed to send password", Snackbar.LENGTH_SHORT);
+                            snackbar.show();
+                        }
+                    }
+                });
     }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -99,7 +96,7 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -118,8 +115,8 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -148,7 +145,8 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
-    public void resetClicked(View view){
+
+    public void resetClicked(View view) {
         resetPassword(input_email.getText().toString());
     }
 

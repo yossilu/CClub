@@ -43,20 +43,20 @@ public class User {
 //    }
 
 
-    private  String phoneNumber;
-    private  String firstName;
-    private  String lastName;
-    private  String email;
-    private  String password;
-    private  String address;
-    private  String userTypeID;
+    private String phoneNumber;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String address;
+    private String userTypeID;
 
 
     /*
                 param
              */
     public User(String PhoneNumber, String FirstName, String LastName,
-                String Email, String Password,String Address,String UserTypeID) {
+                String Email, String Password, String Address, String UserTypeID) {
         this.phoneNumber = PhoneNumber;
         this.firstName = FirstName;
         this.lastName = LastName;
@@ -68,10 +68,11 @@ public class User {
 
     public User() {
     }
-    private static void initializePicture(){
+
+    private static void initializePicture() {
         final Bitmap[] bitmap = {null};
-        final int FIVE_MEGABYTE = 1024*1024*5;
-        if (currentUser != null){
+        final int FIVE_MEGABYTE = 1024 * 1024 * 5;
+        if (currentUser != null) {
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             StorageReference strf = storageReference.child("images").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("privateimg.jpg");
             strf.getBytes(FIVE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -87,7 +88,8 @@ public class User {
             });
         }
     }
-    private static void initialize(){
+
+    private static void initialize() {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -96,7 +98,7 @@ public class User {
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String value = String.valueOf(child.getKey());
-                    if (child.getKey().toString().equals(uid)){
+                    if (child.getKey().toString().equals(uid)) {
                         currentUser = (User) child.getValue(User.class);
                     }
                 }
@@ -107,10 +109,11 @@ public class User {
             }
         });
     }
-    public static User getCurrentUser(){
+
+    public static User getCurrentUser() {
         if (FirebaseAuth.getInstance().getCurrentUser() == null)
             return null;
-        else if (currentUser == null){
+        else if (currentUser == null) {
             initialize();
             try {
                 Thread.sleep(4000);
@@ -120,19 +123,20 @@ public class User {
         }
         return currentUser;
     }
-    public  String getPhoneNumber() {
+
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public  void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public  String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public  void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -140,7 +144,7 @@ public class User {
         return lastName;
     }
 
-    public  void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -148,7 +152,7 @@ public class User {
         return email;
     }
 
-    public  void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -156,14 +160,15 @@ public class User {
         return password;
     }
 
-    public  void setPassword(String password) { this.password = password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public  void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -171,7 +176,7 @@ public class User {
         return userTypeID;
     }
 
-    public  void setUserTypeID(String userTypeID) {
+    public void setUserTypeID(String userTypeID) {
         this.userTypeID = userTypeID;
     }
 

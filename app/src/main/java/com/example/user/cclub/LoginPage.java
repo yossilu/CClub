@@ -46,7 +46,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     int menuCurrentID;
 
     User currentUser;
-    Button gotoreg,LoginBtn;
+    Button gotoreg, LoginBtn;
     EditText userEmail, userPass;
     Bundle params;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -56,7 +56,8 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     private FirebaseAnalytics mFirebaseAnalytics;
     private String buttonClicked;
     FirebaseUser user;
-    ArrayList<User> users=new ArrayList<User>();;
+    ArrayList<User> users = new ArrayList<User>();
+    ;
 
     private static GoogleAnalytics sAnalytics;
     private static Tracker sTracker;
@@ -79,10 +80,10 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         this.getSupportActionBar().setHomeButtonEnabled(true);
 
         //initializing menu
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
         menuCurrentID = R.id.login_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
 
 
         //init
@@ -98,63 +99,59 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         sTracker.enableExceptionReporting(true);
         sTracker.enableAutoActivityTracking(true);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        params  = new Bundle();
+        params = new Bundle();
 
         //Init Firebase Auth
         auth = FirebaseAuth.getInstance();
         currentUser = User.getCurrentUser();
         //check session, if ok go to menu
         if (auth.getCurrentUser() != null) {
-        //    while (User.getCurrentUser() == null) {}
+            //    while (User.getCurrentUser() == null) {}
             startActivity(new Intent(LoginPage.this, Dashboard.class));
             finish();
 
         }
     }
 
-    private void loginUser(final String email,final String pass) {
+    private void loginUser(final String email, final String pass) {
 
-            auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) {
-                        Log.w(mActivityTitle, "signInWithEmail:failure", task.getException());
-                        Toast.makeText(LoginPage.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.d(mActivityTitle, "signInWithEmail:success");
-                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
-                        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                String uid = auth.getCurrentUser().getUid();
-                                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                    String value = String.valueOf(child.getKey());
-                                    if (child.getKey().toString().equals(uid))
-                                       User.currentUser = child.getValue(User.class);
-                                }
-                                String phoneNumber,firstName,lastName,email,password,address,userTypeID;
-                                Log.w("TAG", "hi");
+        auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) {
+                    Log.w(mActivityTitle, "signInWithEmail:failure", task.getException());
+                    Toast.makeText(LoginPage.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d(mActivityTitle, "signInWithEmail:success");
+                    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Users");
+                    dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String uid = auth.getCurrentUser().getUid();
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                String value = String.valueOf(child.getKey());
+                                if (child.getKey().toString().equals(uid))
+                                    User.currentUser = child.getValue(User.class);
                             }
+                            String phoneNumber, firstName, lastName, email, password, address, userTypeID;
+                            Log.w("TAG", "hi");
+                        }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                            }
-                        });
-                        startActivity(new Intent(LoginPage.this, Dashboard.class));
-                        finish();
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    startActivity(new Intent(LoginPage.this, Dashboard.class));
+                    finish();
                 }
-            });
+            }
+        });
 
     }
 
 
-
-
-
-
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -163,7 +160,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -183,14 +180,14 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         mDrawerToggle.syncState();
 
 
-
     }
-      @Override
-      public boolean onOptionsItemSelected(MenuItem item) {
 
-         if (mDrawerToggle.onOptionsItemSelected(item)) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-}
+        }
 //
         return super.onOptionsItemSelected(item);
     }
@@ -214,32 +211,31 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         return false;
     }
 
-    public void loginClicked(View view){
+    public void loginClicked(View view) {
         if (isValidInformation())
-             loginUser(userEmail.getText().toString(), userPass.getText().toString());
-        params.putInt("ButtonID",view.getId());
+            loginUser(userEmail.getText().toString(), userPass.getText().toString());
+        params.putInt("ButtonID", view.getId());
         buttonClicked = "Login_Button";
-        mFirebaseAnalytics.logEvent(buttonClicked,params);
+        mFirebaseAnalytics.logEvent(buttonClicked, params);
 
     }
 
     private boolean isValidInformation() {
         String email = userEmail.getText().toString(), pass = userPass.getText().toString();
-        if (email.isEmpty() || pass.isEmpty()){
-            Toast.makeText(this,"All fields must be filled",Toast.LENGTH_LONG).show();
+        if (email.isEmpty() || pass.isEmpty()) {
+            Toast.makeText(this, "All fields must be filled", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else if (pass.length() < 6){
-            Toast.makeText(this,"Password must be at least 6 characters",Toast.LENGTH_LONG).show();
+        } else if (pass.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
 
     public void registerClicked(View view) {
-        params.putInt("ButtonID",view.getId());
+        params.putInt("ButtonID", view.getId());
         buttonClicked = "Register_Button";
-        mFirebaseAnalytics.logEvent(buttonClicked,params);
+        mFirebaseAnalytics.logEvent(buttonClicked, params);
         Intent intentReg = new Intent(LoginPage.this, RegisterPage.class);
         startActivity(intentReg);
     }

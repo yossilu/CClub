@@ -44,13 +44,13 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         mActivityTitle = getTitle().toString();
 
         menuCurrentID = R.id.map_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
 
         setupDrawer();
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
 
         mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.safety_map));
@@ -66,24 +66,24 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-        protected void loadMap(GoogleMap googleMap) {
-            map = googleMap;
-            if (map != null) {
-                // Map is ready
-                Toast.makeText(this, "Google Map was loaded properly!", Toast.LENGTH_SHORT).show();
-                LatLng holon = new LatLng(32.019088, 34.76922969999998);
-                //move camera
-                map.moveCamera(CameraUpdateFactory.newLatLng(holon));
-                //marker to Holon Israel Ehad be'mai
-                map.moveCamera(CameraUpdateFactory.newLatLng(holon));
-                map.animateCamera(CameraUpdateFactory.zoomTo(12));
-                map.addMarker(new MarkerOptions().position(holon).title("Marker in Israel, Holon, Ehad Be'Mai"));
-            } else {
-                Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
-            }
+    protected void loadMap(GoogleMap googleMap) {
+        map = googleMap;
+        if (map != null) {
+            // Map is ready
+            Toast.makeText(this, "Google Map was loaded properly!", Toast.LENGTH_SHORT).show();
+            LatLng holon = new LatLng(32.019088, 34.76922969999998);
+            //move camera
+            map.moveCamera(CameraUpdateFactory.newLatLng(holon));
+            //marker to Holon Israel Ehad be'mai
+            map.moveCamera(CameraUpdateFactory.newLatLng(holon));
+            map.animateCamera(CameraUpdateFactory.zoomTo(12));
+            map.addMarker(new MarkerOptions().position(holon).title("Marker in Israel, Holon, Ehad Be'Mai"));
+        } else {
+            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
+    }
 
-    private void setupDrawer(){
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -92,7 +92,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -111,8 +111,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

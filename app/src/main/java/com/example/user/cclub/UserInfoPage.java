@@ -57,12 +57,12 @@ import Model.User;
  */
 
 
-public class UserInfoPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
+public class UserInfoPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu references
     User currentUser;
     MenuHandler menuHandler;
     int menuCurrentID;
-    AutoCompleteTextView userPhone, userFirst, userLast, userAddress,userEmail;
+    AutoCompleteTextView userPhone, userFirst, userLast, userAddress, userEmail;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mActivityTitle;
@@ -87,7 +87,7 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
 
 //        sAnalytics = GoogleAnalytics.getInstance(this);
 
-    //action bar init
+        //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutInfo);
         mActivityTitle = getTitle().toString();
 
@@ -97,10 +97,10 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         this.getSupportActionBar().setHomeButtonEnabled(true);
 
         //initializing menu
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
+        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
         menuCurrentID = R.id.info_page;
-        menuHandler = new MenuHandler(this,menuCurrentID);
+        menuHandler = new MenuHandler(this, menuCurrentID);
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
         //init
@@ -111,7 +111,7 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         userFirst = (AutoCompleteTextView) findViewById(R.id.userFirst);
         userLast = (AutoCompleteTextView) findViewById(R.id.userLast);
         userAddress = (AutoCompleteTextView) findViewById(R.id.userAddress);
-        uploadButton = (ImageButton) findViewById(R.id.photoBtnUpload) ;
+        uploadButton = (ImageButton) findViewById(R.id.photoBtnUpload);
         uploadButton.setVisibility(View.INVISIBLE);
         imageView = (ImageView) findViewById(R.id.image_view);
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -128,6 +128,7 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
 
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -153,8 +154,8 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
             uploadButton.setVisibility(View.VISIBLE);
             imageFlag = true;
             isGallery = true;
-        } else if(requestCode == CAM_REQUEST) {
-            Bitmap bit = (Bitmap)intent.getExtras().get("data");
+        } else if (requestCode == CAM_REQUEST) {
+            Bitmap bit = (Bitmap) intent.getExtras().get("data");
             imageView.setImageBitmap(bit);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -167,12 +168,14 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         }
 
     }
-    public void galleryClicked(View view){
+
+    public void galleryClicked(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
         Toast.makeText(UserInfoPage.this, "Please choose a photo from gallery", Toast.LENGTH_LONG).show();
     }
-    public void photoClicked(View view){
+
+    public void photoClicked(View view) {
         Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(photoIntent, CAM_REQUEST);
         Toast.makeText(UserInfoPage.this, "Please Take a photo", Toast.LENGTH_LONG).show();
@@ -184,6 +187,7 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -193,6 +197,7 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
 //
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -204,7 +209,8 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
-    private void setupDrawer(){
+
+    private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
 
@@ -213,7 +219,7 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if( getSupportActionBar() !=null ) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle("Navigation");
                 }
             }
@@ -233,40 +239,46 @@ public class UserInfoPage extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.syncState();
 
 
-
     }
 
     private boolean validInformation() {    //TODO : add toasts for invalid information
-        String name = ""+userFirst.getText().toString().trim();
-        String Lname = ""+userLast.getText().toString().trim();
-        String phone = ""+userPhone.getText().toString().trim();
-        String add = ""+userAddress.getText().toString().trim();
-        if (name.length()<3 || Lname.length()<3  || phone.length()<3 || add.length()<3) {
+        String name = "" + userFirst.getText().toString().trim();
+        String Lname = "" + userLast.getText().toString().trim();
+        String phone = "" + userPhone.getText().toString().trim();
+        String add = "" + userAddress.getText().toString().trim();
+        if (name.length() < 3 || Lname.length() < 3 || phone.length() < 3 || add.length() < 3) {
             Toast.makeText(UserInfoPage.this, "All fields must be filled and contain at least 3 letters", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
 
-    public void updateClicked(View view){
-        if (validInformation()){
-        FirebaseUser fu = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = databaseReference.child(fu.getUid().toString());
-        databaseReference.child("phoneNumber").setValue(userPhone.getText().toString().trim());
-        databaseReference.child("firstName").setValue(userFirst.getText().toString().trim());
-        databaseReference.child("lastName").setValue(userLast.getText().toString().trim());
-        databaseReference.child("address").setValue(userAddress.getText().toString().trim());
-    }
+
+    public void updateClicked(View view) {
+        if (validInformation()) {
+            FirebaseUser fu = FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference dbrf = databaseReference.child(fu.getUid().toString());
+            dbrf.child("phoneNumber").setValue(userPhone.getText().toString().trim());
+            dbrf.child("firstName").setValue(userFirst.getText().toString().trim());
+            dbrf.child("lastName").setValue(userLast.getText().toString().trim());
+            dbrf.child("address").setValue(userAddress.getText().toString().trim());
+            if (imageFlag){
+                uploadPhoto();
+            }
+            Toast.makeText(UserInfoPage.this, "Updated Successfully!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void uploadClicked(View view) {
+        uploadPhoto();
+    }
+    public void uploadPhoto(){
         UploadTask uploadTask;
         storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference strf = storageReference.child("images").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).child("privateimg.jpg");
         if (!isGallery) {
             uploadTask = strf.putBytes(dataBytes);
-        }
-        else{
+        } else {
             uploadTask = strf.putFile(selectedImg);
         }
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
