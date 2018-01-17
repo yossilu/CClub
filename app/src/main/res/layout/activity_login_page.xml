@@ -120,7 +120,7 @@
                 android:paddingLeft="10dp"
                 android:inputType="textPassword"
                 android:id="@+id/userPass"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 android:drawableStart="@drawable/ic_pass_icon"
                 android:paddingStart="10dp"
                 tools:ignore="RtlSymmetry" />
@@ -129,7 +129,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="68dp"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="5dp">
 
 
                 <Button
@@ -137,6 +138,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/registeration_button"
                     android:text="@string/login"
                     android:onClick="loginClicked"
@@ -148,8 +150,9 @@
 
                 <Button
                     android:id="@+id/regButton"
-                    android:layout_width="100dp"
+                    android:layout_width="100"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:background="@drawable/registeration_button"
                     android:text="@string/registeration"
                     android:textAllCaps="false"

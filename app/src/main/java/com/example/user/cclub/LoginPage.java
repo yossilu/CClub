@@ -67,6 +67,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+        //getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         sAnalytics = GoogleAnalytics.getInstance(this);
 

@@ -46,6 +46,8 @@ public class ForgotPassword extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_forgot_password);
+        //getWindow().setBackgroundDrawableResource(R.drawable.background);
+
 
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutForgot);

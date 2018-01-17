@@ -44,6 +44,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_dashboard);
+        //getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutDash);

@@ -118,7 +118,7 @@
                 android:paddingLeft="10dp"
                 android:inputType="textPassword"
                 android:id="@+id/newPass"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 />
 
             <LinearLayout
@@ -126,7 +126,8 @@
                 android:layout_height="68dp"
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="10dp">
 
 
                 <Button
@@ -134,6 +135,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/registeration_button"
                     android:text="Logout"
                     android:onClick="logoutClicked"
@@ -146,6 +148,7 @@
                     android:id="@+id/changePass"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:background="@drawable/registeration_button"
                     android:text="Change password"
                     android:textAllCaps="false"
