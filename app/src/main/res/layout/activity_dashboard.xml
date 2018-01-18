@@ -134,7 +134,6 @@
                     android:id="@+id/LogOutBtn"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
                     android:layout_gravity="center"
                     android:background="@drawable/registeration_button"
                     android:text="Logout"
@@ -154,6 +153,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textStyle="normal"
+                    android:layout_marginRight="20dp"
                     />
 
             </LinearLayout>

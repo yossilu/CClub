@@ -83,6 +83,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_register);
         //getWindow().setBackgroundDrawableResource(R.drawable.background);
 
+
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference("Users");
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutReg);

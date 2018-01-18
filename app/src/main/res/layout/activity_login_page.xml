@@ -18,7 +18,7 @@
         android:layout_height="match_parent">
 
 
-        <ImageView
+      <!--  <ImageView
             android:id="@+id/formBack"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             android:src="@drawable/background"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO" />-->
 
 
         <ImageView
