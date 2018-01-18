@@ -16,10 +16,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
@@ -39,7 +36,7 @@
             android:src="@drawable/background"
             android:scaleType="centerCrop"
             android:id="@+id/formBack"
-            />
+            android:contentDescription="@string/image" />
 
         <TextView
             android:id="@+id/textViewReadme"
@@ -53,10 +50,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="55dp"
-            android:text="Our app is here for your convenience. You can register, sign in and view all of our training programs, which trainer leads an exact class that day or just check the whole schedule. You can sign to any class you like based on capacity limits. Once you're logged in, there's an option to move between each tabs of the app such as: entrance pabe / our location by google / register / viewing your details / visiting our training schedule. That option is located at the top right corner of each screen and enables you a quick entrance through a finger tap. If more questions are raised or something is not understood you are welcome to contact us by mail, Cclub@gmail.com
-
-Regards,
-Cclub Team"
+            android:text="@string/our_app_is_here_for_your_convenience_you_can_register_sign_in_and_view_all_of_our_training_programs_which_trainer_leads_an_exact_class_that_day_or_just_check_the_whole_schedule_you_can_sign_to_any_class_you_like_based_on_capacity_limits_once_you_re_logged_in_there_s_an_option_to_move_between_each_tabs_of_the_app_such_as_entrance_pabe_our_location_by_google_register_viewing_your_details_visiting_our_training_schedule_that_option_is_located_at_the_top_right_corner_of_each_screen_and_enables_you_a_quick_entrance_through_a_finger_tap_if_more_questions_are_raised_or_something_is_not_understood_you_are_welcome_to_contact_us_by_mail_cclub_gmail_com_regards_cclub_team"
             android:textSize="16sp"
             android:textColor="@color/white"
             />
