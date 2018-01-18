@@ -38,6 +38,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_page);
+        //getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutMap);

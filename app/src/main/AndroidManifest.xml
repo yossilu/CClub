@@ -19,6 +19,8 @@
 
     <!-- Allows the Google Maps API to use the Global Positioning System (GPS) to determine the device's location to within a very small area. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18"/>
+
     <uses-permission
         android:name="tWorks.Samcom.sic.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />

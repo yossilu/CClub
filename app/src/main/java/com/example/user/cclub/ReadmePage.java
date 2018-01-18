@@ -26,6 +26,7 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_readme);
+        //getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         //action bar init
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayoutReadme);
