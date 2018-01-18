@@ -28,7 +28,11 @@ public class MenuHandler {
     int currentPageID;
     ArrayList<MenuItem> menuItems;
 
-
+    /*
+        Constructor for the Menu Handler
+        currentPage - a reference to the current running page to handle his menu and actions
+        currentPageID - the R id of the current page.
+     */
     public MenuHandler(AppCompatActivity currentPage, int currentPageID) {
         isLoggedIn = (FirebaseAuth.getInstance().getCurrentUser() != null);
         menu = (Menu) ((NavigationView) currentPage.findViewById(R.id.nav_view)).getMenu();
@@ -41,6 +45,9 @@ public class MenuHandler {
         setVisibilityForItems();
     }
 
+    /*
+        handling the view to start the matching activity due to the item
+     */
     public void onNavigationItemSelected(MenuItem item) {
         Intent intent;
         if (currentPageID == item.getItemId()) {
@@ -94,6 +101,9 @@ public class MenuHandler {
         }
     }
 
+    /*
+        set visibilities for items in the menu separated by logged in users, not logged in users and for ALL
+     */
     public void setVisibilityForItems() {
         isLoggedIn = (FirebaseAuth.getInstance().getCurrentUser() != null);
         for (MenuItem item : menuItems) {
@@ -106,6 +116,9 @@ public class MenuHandler {
         }
     }
 
+    /*
+        checking if int value existing in a specific int array.
+     */
     private boolean isExist(int[] arr, int key) {
         for (int i = 0; i < arr.length; i++) {
             if (key == arr[i])

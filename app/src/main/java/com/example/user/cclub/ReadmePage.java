@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+//declaring ReadmePage class, implements navigation listener for the main menu
 public class ReadmePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu references
     MenuHandler menuHandler;
@@ -22,6 +23,7 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
 
+    //OnCreate would populate the declared Activity fields
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,9 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
             }
         });*/
     }
-
+    /*
+            initializing the navigator
+             */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
@@ -82,7 +86,9 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
 
 
     }
-
+    /*
+            View handler for the navigation menu (colors and etc.)
+         */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -92,20 +98,28 @@ public class ReadmePage extends AppCompatActivity implements NavigationView.OnNa
 //
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+            View handler for the navigation menu (colors and etc.)
+         */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-
+    /*
+                View handler for the navigation menu (colors and etc.)
+             */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /*
+             Listener method, handling the selected item from the menu
+             and navigating to the clicked page (by item)
+                 */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         menuHandler.onNavigationItemSelected(item);

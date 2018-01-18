@@ -46,8 +46,9 @@ import java.io.IOException;
 
 import Model.User;
 
-
+//declaring RegisterPage implements navigation listener for the main menu
 public class RegisterPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    ///////////////DECLARTIONS///////////////////
     //Menu references
     MenuHandler menuHandler;
     int menuCurrentID;
@@ -73,7 +74,7 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
     private boolean isGallery = false;
     private byte[] dataBytes;
 
-
+    //OnCreate would populate the declared Activity fields
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -129,7 +130,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
     }
 
-
+    /*
+        handling the answer from the user about Camera permission
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -143,7 +146,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
+    /*
+            handling the result (file/image/bitmap) from the ACTION_IMAGE_CAPTURE or ACTION_PICK
+         */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -166,8 +171,10 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
     }
 
-
-    private boolean validInformation() {    //TODO : add toasts for invalid information
+/*
+checking if the user fields with valid characters and length
+ */
+    private boolean validInformation() {
         String name = userFirst.getText().toString().trim();
         String Lname = userLast.getText().toString().trim();
         String email = emails.getText().toString().trim();
@@ -182,7 +189,10 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-
+/*
+signing up a user with the information from the user edit text fields
+with FireBase authentication
+ */
     private void signUpUser(String email, final String password) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -196,7 +206,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
                     }
                 });
     }
-
+/*
+creating user in the FireBase Database (no authentication)
+ */
     private void createUser() {
         String UserTypeID = "1"; // TODO : change to real USERTYPEID
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -220,7 +232,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         snackbar = Snackbar.make(activity_sign_up, "Register Success: ", snackbar.LENGTH_SHORT);
         snackbar.show();
     }
-
+/*
+    handling the FireBase Storage to upload a private photo from the user (ACTION_PICK / ACTION_IMAGE_CAPTURE)
+ */
     private void uploadImage() {
         UploadTask uploadTask;
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -242,7 +256,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
+    /*
+    initializing the navigator
+     */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
@@ -272,7 +288,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 
 
     }
-
+    /*
+            View handler for the navigation menu (colors and etc.)
+         */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -282,7 +300,9 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
 //
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+            View handler for the navigation menu (colors and etc.)
+         */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -290,12 +310,18 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.syncState();
     }
 
+    /*
+            View handler for the navigation menu (colors and etc.)
+         */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /*
+        Click listener method for RegisterButton
+     */
     public void registerClicked(View view) {
         if (validInformation())
             signUpUser(userEmail.getText().toString().trim(), userPassword.getText().toString().trim());
@@ -304,24 +330,36 @@ public class RegisterPage extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /*
+        Click listener method for GalleryButton (opening the gallery to choose photo to upload)
+        ACTION_PICK
+     */
     public void galleryClicked(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
         Toast.makeText(RegisterPage.this, "Please choose a photo from gallery", Toast.LENGTH_LONG).show();
     }
-
+    /*
+            Click listener method for PhotoButton (opening the gallery to choose photo to upload)
+            ACTION_IMAGE_CAPTURE
+         */
     public void photoClicked(View view) {
         Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(photoIntent, CAM_REQUEST);
         Toast.makeText(RegisterPage.this, "Please Take a photo", Toast.LENGTH_LONG).show();
     }
 
+    /*
+         Listener method, handling the selected item from the menu
+         and navigating to the clicked page (by item)
+             */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
 
+    //will be implemented
     public void uploadClicked(View view) {
 
     }

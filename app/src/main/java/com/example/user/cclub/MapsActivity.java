@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+//declaring MapsActivity class, implements navigation listener for the main menu
 public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SupportMapFragment mapFragment;
@@ -34,6 +35,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     MenuHandler menuHandler;
     int menuCurrentID;
 
+    //OnCreate would populate the declared Activity fields
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,23 +69,28 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /*
+        loading the GoogleMap on CClub location
+     */
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
             // Map is ready
             Toast.makeText(this, "Google Map was loaded properly!", Toast.LENGTH_SHORT).show();
             LatLng holon = new LatLng(32.019088, 34.76922969999998);
+
             //move camera
             map.moveCamera(CameraUpdateFactory.newLatLng(holon));
-            //marker to Holon Israel Ehad be'mai
-            map.moveCamera(CameraUpdateFactory.newLatLng(holon));
             map.animateCamera(CameraUpdateFactory.zoomTo(12));
+            //marker to Holon Israel Ehad be'mai
             map.addMarker(new MarkerOptions().position(holon).title("Marker in Israel, Holon, Ehad Be'Mai"));
         } else {
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
     }
-
+    /*
+                initializing the navigator
+                 */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
@@ -113,7 +120,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
+    /*
+                View handler for the navigation menu (colors and etc.)
+             */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -123,20 +132,27 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 //
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+                View handler for the navigation menu (colors and etc.)
+             */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-
+    /*
+                View handler for the navigation menu (colors and etc.)
+             */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
+    /*
+                 Listener method, handling the selected item from the menu
+                 and navigating to the clicked page (by item)
+                     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         menuHandler.onNavigationItemSelected(item);

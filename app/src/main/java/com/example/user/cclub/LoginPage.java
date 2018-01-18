@@ -39,8 +39,10 @@ import java.util.ArrayList;
 
 import Model.User;
 
-
+//declaring LoginPage (App's main activity) implements navigation listener for the main menu
 public class LoginPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    ///////////////DECLARTIONS///////////////////
     //Menu references
     MenuHandler menuHandler;
     int menuCurrentID;
@@ -62,6 +64,7 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
     private static GoogleAnalytics sAnalytics;
     private static Tracker sTracker;
 
+    //OnCreate would populate the declared Activity fields
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +117,12 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
+    /*
+    param: email - login email of existed user
+           pass - login password
+
+           Trying to login a user
+     */
     private void loginUser(final String email, final String pass) {
 
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -151,7 +160,9 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-
+/*
+initializing the navigator
+ */
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.string.open, R.string.close) {
@@ -183,6 +194,9 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    /*
+        View handler for the navigation menu (colors and etc.)
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -192,26 +206,36 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
 //
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+        View handler for the navigation menu (colors and etc.)
+     */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
-
+    /*
+            View handler for the navigation menu (colors and etc.)
+         */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
+    /*
+            Listener method, handling the selected item from the menu
+            and navigating to the clicked page (by item)
+         */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         menuHandler.onNavigationItemSelected(item);
         return false;
     }
 
+    /*
+        Click listener method for LoginButton
+     */
     public void loginClicked(View view) {
         if (isValidInformation())
             loginUser(userEmail.getText().toString(), userPass.getText().toString());
@@ -220,7 +244,10 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         mFirebaseAnalytics.logEvent(buttonClicked, params);
 
     }
-
+    /*
+            checking if the email and password from "loginUser" are valid
+            (password longer than 5 characters and fields aren't empty)
+         */
     private boolean isValidInformation() {
         String email = userEmail.getText().toString(), pass = userPass.getText().toString();
         if (email.isEmpty() || pass.isEmpty()) {
@@ -233,6 +260,9 @@ public class LoginPage extends AppCompatActivity implements NavigationView.OnNav
         return true;
     }
 
+    /*
+        Click listener method for LoginButton
+     */
     public void registerClicked(View view) {
         params.putInt("ButtonID", view.getId());
         buttonClicked = "Register_Button";

@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * Created by yosil on 12/30/2017.
  */
-
+//declaring MapsActivity class, implements navigation listener for the main menu
 public class ForgotPassword extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu references
     MenuHandler menuHandler;
